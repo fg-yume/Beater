@@ -18,28 +18,40 @@ beater.input =
 	 */
 
 	/*
-	 * Handles keyboard presses during the game
+	 * Handles keyboard presses during the various states in the game
 	 *
 	 * @return	none
 	 */
 	pollKeyboard : function()
 	{
 		//console.log("poll");
-
-		if(beater.main.keydown[beater.KEYBOARD.KEY_Z] || beater.main.keydown[beater.KEYBOARD.KEY_X])
+		
+		// 'main' state
+		if(beater.main.currentState == beater.GAME_STATE.MAIN)
 		{
-			// spawn circle
-			beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX, beater.main.mouseY, 10, '#aaa', '#999', 100));
-			
-			// test
-			beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX + 50, beater.main.mouseY-10, 10, '#aaa', '#999', 100));
-			
-			//console.log("spawned circle");
+			if(beater.main.keydown[beater.KEYBOARD.KEY_Z])
+				beater.main.changeState(beater.GAME_STATE.GAME);
+		}
+
+		// 'game' state
+		if(beater.main.currentState == beater.GAME_STATE.GAME)
+		{
+			if(beater.main.keydown[beater.KEYBOARD.KEY_Z] || beater.main.keydown[beater.KEYBOARD.KEY_X])
+			{
+				// spawn circle
+				beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX, beater.main.mouseY, 10, '#aaa', '#999', 100));
+				
+				// test
+				beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX + 50, beater.main.mouseY-10, 10, '#aaa', '#999', 100));
+				
+				//console.log("spawned circle");
+			}
 		}
 		
-		// pausing
-		if(beater.main.keydown[beater.KEYBOARD.KEY_P])
-			beater.main.changeState(beater.GAME_STATE.PAUSE);
+		// not in the 'pause' state
+		if(beater.main.currentState != beater.GAME_STATE.PAUSE)
+			if(beater.main.keydown[beater.KEYBOARD.KEY_P])
+				beater.main.changeState(beater.GAME_STATE.PAUSE);
 	},
 
 	/*

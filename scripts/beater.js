@@ -118,25 +118,29 @@ beater.main = {
 	 */
 	update : function()
 	{
+		//this.previousState = this.currentState;
+		
 		// input
 		beater.input.pollKeyboard();
-		//beater.input.updateMouse();
 
-		this.updateObjects();
+		if(this.currentState == beater.GAME_STATE.GAME)
+		{
+			this.updateObjects();
+			
+			// test
+			this.testTimer -= 1;
+			if(this.testTimer <= 0)
+			{
+				this.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
+				
+				//console.log(currMouseX +" " + currMouseY);
+				
+				this.testTimer = 100;
+			}
+		}
 		
 		// draw
 		this.draw();
-		
-		// test
-		this.testTimer -= 1;
-		if(this.testTimer <= 0)
-		{
-			this.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
-			
-			//console.log(currMouseX +" " + currMouseY);
-			
-			this.testTimer = 100;
-		}
 		
 		// set loop
 		requestAnimationFrame(this.update.bind(this));
