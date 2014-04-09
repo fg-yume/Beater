@@ -19,6 +19,7 @@ Modernizr.load(
 			'scripts/ring.js',
 			'scripts/circle.js',
 			'scripts/input.js',
+			'scripts/button.js',
 			'scripts/beater.js'
 		],
 		
@@ -77,7 +78,9 @@ Modernizr.load(
 			 */
 			document.querySelector("#canvas").addEventListener('mousedown', function(e){
 				console.log("canvas clicked :#");
+				//beater.main.checkCollisions();
 			});
+			
 			
 			/*
 			 * Action to take when the mouse is moved on the canvas
