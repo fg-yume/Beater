@@ -27,9 +27,8 @@ beater.Button = (function()
 	 * @param	stroke	the stroke color of the button
 	 * @param	text	the text of the button
 	 * @param	func	the function to call when the button is clicked
-	 * @param 	funcArg	the arguments necessary for the function
 	 */
-	var Button = function(x, y, width, height, fill, stroke, text, func, funcArg)
+	var Button = function(x, y, width, height, fill, stroke, text, func)
 	{
 		this.x		= x;
 		this.y		= y;
@@ -44,13 +43,13 @@ beater.Button = (function()
 	};
 	
 	/*
-	 * Updates the button
+	 * Updates the button; The button's function is called if the button has been clicked
 	 *
 	 * @return	none
 	 */
 	Button.prototype.update = function()
 	{
-		if(this.clicked && this.func !== undefined)
+		if(this.clicked && "function" == typeof func)
 			this.func();
 	};
 	

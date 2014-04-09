@@ -20,6 +20,7 @@ Modernizr.load(
 			'scripts/circle.js',
 			'scripts/input.js',
 			'scripts/button.js',
+			'scripts/screen.js',
 			'scripts/beater.js'
 		],
 		
@@ -57,7 +58,7 @@ Modernizr.load(
 			 * @return none
 			 */
 			window.addEventListener('keydown', function(e){
-				console.log("keydown = " + e.keyCode);
+				//console.log("keydown = " + e.keyCode);
 				beater.main.keydown[e.keyCode] = true;
 			});
 			
@@ -67,7 +68,7 @@ Modernizr.load(
 			 * @return none
 			 */
 			window.addEventListener('keyup', function(e){
-				console.log("keyup = " + e.keyCode);
+				//console.log("keyup = " + e.keyCode);
 				beater.main.keydown[e.keyCode] = false;
 			});
 			

@@ -213,13 +213,13 @@ beater.main = {
 	 */
 	checkCollisions : function()
 	{
-		console.log("check collision");
+		//console.log("check collision");
 		//console.log(this.currentState);
 		//console.log(beater.GAME_STATE.MAIN);
 		
 		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
-			console.log("main collision detection");
+			//console.log("main collision detection");
 			//console.log(testButton.x);
 			//console.log(" " + testButton.y);
 			
@@ -244,7 +244,7 @@ beater.main = {
 				((this.mouseY - this.hitCircles[i].centerY) * 
 				(this.mouseY - this.hitCircles[i].centerY))
 				
-				console.log(distSquared);
+				//console.log(distSquared);
 				
 				// if dist^2 <= radius^2
 				if(distSquared <= this.hitCircles[i].radius * this.hitCircles[i].radius)

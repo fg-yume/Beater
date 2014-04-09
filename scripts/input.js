@@ -12,12 +12,6 @@ var beater = beater || {};
 beater.input = 
 {
 	/*
-	 * Handles closure for circle creation
-	 *
-	 * @return 
-	 */
-
-	/*
 	 * Handles keyboard presses during the various states in the game
 	 *
 	 * @return	none
