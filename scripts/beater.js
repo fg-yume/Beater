@@ -46,7 +46,7 @@ beater.main = {
 	//testFunc : this.changeState(beater.GAME_STATE.GAME, false),
 	
 	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!", function(){
-		this.changeState.bind(this);
+		//this.changeState.bind(this);
 		
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
@@ -194,13 +194,13 @@ beater.main = {
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 		{
-			console.log("draw pause");
+			//console.log("draw pause");
 			beater.CTX.save();
 			
-			beater.CTX.fillStyle 	= "#FFF";
-			beater.CTX.font 		= "30px Arial";
-			
-			beater.CTX.fillText("Paused!", 200, 300);
+				beater.CTX.fillStyle 	= "#FFF";
+				beater.CTX.font 		= "30px Arial";
+				
+				beater.CTX.fillText("Paused!", 200, 300);
 			
 			beater.CTX.restore();
 		}
@@ -214,8 +214,8 @@ beater.main = {
 	checkCollisions : function()
 	{
 		console.log("check collision");
-		console.log(this.currentState);
-		console.log(beater.GAME_STATE.MAIN);
+		//console.log(this.currentState);
+		//console.log(beater.GAME_STATE.MAIN);
 		
 		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
@@ -236,6 +236,7 @@ beater.main = {
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
+			// game collision detection
 			for(var i = 0; i < this.hitCircles.length; i++)
 			{
 				var distSquared = ((this.mouseX - this.hitCircles[i].centerX) * 
@@ -243,11 +244,13 @@ beater.main = {
 				((this.mouseY - this.hitCircles[i].centerY) * 
 				(this.mouseY - this.hitCircles[i].centerY))
 				
+				console.log(distSquared);
+				
 				// if dist^2 <= radius^2
 				if(distSquared <= this.hitCircles[i].radius * this.hitCircles[i].radius)
 				{
 					// collision resolution
-					var diff = hitCircles[i].radiusDifference();
+					var diff = this.hitCircles[i].radiusDifference();
 					if(diff <= 1)
 					{
 						// score += 30

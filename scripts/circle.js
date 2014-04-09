@@ -71,7 +71,7 @@ beater.Circle = (function()
 		this.complete = true;
 		
 		// difference in radii between circle and ring
-		return difference = Math.abs(this.radius - this.ring.getRadius());	
+		return Math.abs(this.radius - this.ring.Radius());	
 	};
 	
 	/*
