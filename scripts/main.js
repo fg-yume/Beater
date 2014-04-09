@@ -77,8 +77,8 @@ Modernizr.load(
 			 * @return	none
 			 */
 			document.querySelector("#canvas").addEventListener('mousedown', function(e){
-				console.log("canvas clicked :#");
-				//beater.main.checkCollisions();
+				//console.log("canvas clicked :#");
+				beater.main.checkCollisions();
 			});
 			
 			

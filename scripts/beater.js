@@ -45,7 +45,11 @@ beater.main = {
 	
 	//testFunc : this.changeState(beater.GAME_STATE.GAME, false),
 	
-	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!"),
+	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!", function(){
+		this.changeState.bind(this);
+		
+		this.changeState(beater.GAME_STATE.GAME, false);
+	}),
 
 	// Game methods		------------------------------------
 
@@ -209,18 +213,28 @@ beater.main = {
 	 */
 	checkCollisions : function()
 	{
-		if(this.gameState == beater.GAME_STATE.MAIN)
+		console.log("check collision");
+		console.log(this.currentState);
+		console.log(beater.GAME_STATE.MAIN);
+		
+		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
 			console.log("main collision detection");
+			//console.log(testButton.x);
+			//console.log(" " + testButton.y);
 			
-			if(testButton.x <= this.mouseX && testButton.x + testButton.width >= this.mouseX)
-				if(testButton.y <= this.mouseY && testButton.y + testButton.height >= this.mouseY)
+			if(this.testButton.x <= this.mouseX && this.testButton.x + this.testButton.width >= this.mouseX)
+			{
+				console.log("first pass");
+				if(this.testButton.y <= this.mouseY && this.testButton.y + this.testButton.height >= this.mouseY)
 				{
+					console.log("second pass");
 					this.changeState(beater.GAME_STATE.GAME, false);
 				}
+			}
 		}
 	
-		if(this.gameState == beater.GAME_STATE.GAME)
+		if(this.currentState == beater.GAME_STATE.GAME)
 		{
 			for(var i = 0; i < this.hitCircles.length; i++)
 			{

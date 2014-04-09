@@ -27,8 +27,9 @@ beater.Button = (function()
 	 * @param	stroke	the stroke color of the button
 	 * @param	text	the text of the button
 	 * @param	func	the function to call when the button is clicked
+	 * @param 	funcArg	the arguments necessary for the function
 	 */
-	var Button = function(x, y, width, height, fill, stroke, text, func)
+	var Button = function(x, y, width, height, fill, stroke, text, func, funcArg)
 	{
 		this.x		= x;
 		this.y		= y;
@@ -42,12 +43,22 @@ beater.Button = (function()
 		this.clicked = false;
 	};
 	
+	/*
+	 * Updates the button
+	 *
+	 * @return	none
+	 */
 	Button.prototype.update = function()
 	{
 		if(this.clicked && this.func !== undefined)
 			this.func();
 	};
 	
+	/*
+	 * Draw the button in the given drawing context
+	 *
+	 * @param	ctx	the context that the button is being drawn to
+	 */
 	Button.prototype.draw = function(ctx)
 	{
 		// restore point - pre rectangle
