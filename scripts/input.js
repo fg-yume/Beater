@@ -13,7 +13,8 @@ var beater = beater || {};
 
 beater.input = 
 {
-	keydown : [], // keys that are currently down
+	// Game variables	------------------------------------
+	keydown : [], 			// keys that are currently down
 	mouseX	: undefined,	// x-coord of mouse
 	mouseY	: undefined,	// y-coord of mouse
 	
@@ -39,10 +40,10 @@ beater.input =
 			if(this.keydown[beater.KEYBOARD.KEY_Z] || this.keydown[beater.KEYBOARD.KEY_X])
 			{
 				// spawn circle
-				beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX, beater.main.mouseY, 10, '#aaa', '#999', 100));
+				beater.main.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
 				
 				// test
-				beater.main.hitCircles.push(new beater.Circle(beater.main.mouseX + 50, beater.main.mouseY-10, 10, '#aaa', '#999', 100));
+				beater.main.hitCircles.push(new beater.Circle(this.mouseX + 50, this.mouseY-10, 10, '#aaa', '#999', 100));
 				
 				//console.log("spawned circle");
 			}

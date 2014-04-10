@@ -206,17 +206,9 @@ beater.main = {
 	 * @return	none
 	 */
 	checkCollisions : function()
-	{
-		//console.log("check collision");
-		//console.log(this.currentState);
-		//console.log(beater.GAME_STATE.MAIN);
-		
+	{		
 		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
-			//console.log("main collision detection");
-			//console.log(testButton.x);
-			//console.log(" " + testButton.y);
-			
 			if(this.testButton.x <= beater.input.mouseX && this.testButton.x + this.testButton.width >= beater.input.mouseX)
 			{
 				console.log("first pass");
