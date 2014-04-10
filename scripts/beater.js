@@ -2,7 +2,7 @@
  * beater.js
  * @author Freddy Garcia
  *
- * Handles the main functionality for 'beater'
+ * Handles the main functionality for 'beater' game
  */
  
 "use strict";
@@ -10,6 +10,12 @@
 var beater = beater || {};
 
 // Game constants	------------------------------------	
+
+beater.KEYBOARD	= {
+	"KEY_Z"	: 90,
+	"KEY_X"	: 88,
+	"KEY_P"	: 80
+};								// available keyboard states
 		
 beater.GAME_STATE = {
 	MAIN			: "MAIN",
@@ -20,12 +26,6 @@ beater.GAME_STATE = {
 	GAME_LOSE		: "LOSE"
 }; 								// available game states
 
-beater.KEYBOARD	= {
-	"KEY_Z"	: 90,
-	"KEY_X"	: 88,
-	"KEY_P"	: 80
-};								// available keyboard states
-
 beater.OFFSET_LEFT		= document.querySelector("#canvas").offsetLeft;			// canvas offset from left of window
 beater.OFFSET_TOP		= document.querySelector("#canvas").offsetTop;			// canvas offset from top of window
 beater.CTX				= document.querySelector("#canvas").getContext('2d');	// 2d rendering context
@@ -34,12 +34,8 @@ beater.HEIGHT			= document.querySelector("#canvas").height;				// height of the 
 
 beater.main = {
 	// Game variables	------------------------------------
-
 	previousState 	: undefined,	// previous game state
 	currentState 	: undefined,	// current game state
-	keydown 		: [], 			// keys that are currently down
-	mouseX			: undefined,	// x-coord of mouse
-	mouseY			: undefined,	// y-coord of mouse
 	hitCircles		: undefined,	// hit circles currently in the game
 	testTimer		: 50,
 	
@@ -93,8 +89,6 @@ beater.main = {
 		// defaults
 		this.previousState 	= beater.GAME_STATE.MAIN;
 		this.currentState 	= beater.GAME_STATE.MAIN;
-		this.mouseX			= 0;
-		this.mouseY			= 0;
 		this.hitCircles		= new Array();	
 		
 		this.update();
@@ -144,7 +138,7 @@ beater.main = {
 			this.testTimer -= 1;
 			if(this.testTimer <= 0)
 			{
-				this.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
+				this.hitCircles.push(new beater.Circle(beater.input.mouseX, beater.input.mouseY, 10, '#aaa', '#999', 100));
 				
 				//console.log(currMouseX +" " + currMouseY);
 				
@@ -223,10 +217,10 @@ beater.main = {
 			//console.log(testButton.x);
 			//console.log(" " + testButton.y);
 			
-			if(this.testButton.x <= this.mouseX && this.testButton.x + this.testButton.width >= this.mouseX)
+			if(this.testButton.x <= beater.input.mouseX && this.testButton.x + this.testButton.width >= beater.input.mouseX)
 			{
 				console.log("first pass");
-				if(this.testButton.y <= this.mouseY && this.testButton.y + this.testButton.height >= this.mouseY)
+				if(this.testButton.y <= beater.input.mouseY && this.testButton.y + this.testButton.height >= beater.input.mouseY)
 				{
 					console.log("second pass");
 					this.changeState(beater.GAME_STATE.GAME, false);
@@ -239,10 +233,10 @@ beater.main = {
 			// game collision detection
 			for(var i = 0; i < this.hitCircles.length; i++)
 			{
-				var distSquared = ((this.mouseX - this.hitCircles[i].centerX) * 
-				(this.mouseX - this.hitCircles[i].centerX)) + 
-				((this.mouseY - this.hitCircles[i].centerY) * 
-				(this.mouseY - this.hitCircles[i].centerY))
+				var distSquared = ((beater.input.mouseX - this.hitCircles[i].centerX) * 
+				(beater.input.mouseX - this.hitCircles[i].centerX)) + 
+				((beater.input.mouseY - this.hitCircles[i].centerY) * 
+				(beater.input.mouseY - this.hitCircles[i].centerY))
 				
 				//console.log(distSquared);
 				

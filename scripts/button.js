@@ -66,9 +66,11 @@ beater.Button = (function()
 			// rectangle settings
 			ctx.fillStyle = this.fill;
 			ctx.strokeStyle = this.stroke;
+			ctx.lineWidth = STROKE_WIDTH;
 			
 			// draw
-			ctx.fillRect(this.x, this.y, this.width, this.height);
+			ctx.rect(this.x, this.y, this.width, this.height);
+			ctx.fill();
 			ctx.stroke();
 		
 		// revert changes - post rectangle

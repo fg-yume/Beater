@@ -20,7 +20,9 @@ Modernizr.load(
 			'scripts/circle.js',
 			'scripts/input.js',
 			'scripts/button.js',
+			'scripts/label.js',
 			'scripts/screen.js',
+			'scripts/game.js',
 			'scripts/beater.js'
 		],
 		
@@ -59,7 +61,7 @@ Modernizr.load(
 			 */
 			window.addEventListener('keydown', function(e){
 				//console.log("keydown = " + e.keyCode);
-				beater.main.keydown[e.keyCode] = true;
+				beater.input.keydown[e.keyCode] = true;
 			});
 			
 			/*
@@ -69,7 +71,7 @@ Modernizr.load(
 			 */
 			window.addEventListener('keyup', function(e){
 				//console.log("keyup = " + e.keyCode);
-				beater.main.keydown[e.keyCode] = false;
+				beater.input.keydown[e.keyCode] = false;
 			});
 			
 			/*
