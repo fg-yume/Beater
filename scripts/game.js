@@ -1,5 +1,7 @@
 /*
  * game.js
+ * Requirements:
+ *	utilities.js
  *
  * @author Freddy Garcia
  *
@@ -38,7 +40,6 @@ beater.game = {
 			return !hitCircle.isComplete();
 		});
 	},
-	
 	
 	/*
 	 * Updates the game
@@ -93,15 +94,11 @@ beater.game = {
 		// game collision detection
 		for(var i = 0; i < this.hitCircles.length; i++)
 		{
-			var distSquared = ((beater.input.mouseX - this.hitCircles[i].centerX) * 
-			(beater.input.mouseX - this.hitCircles[i].centerX)) + 
-			((beater.input.mouseY - this.hitCircles[i].centerY) * 
-			(beater.input.mouseY - this.hitCircles[i].centerY))
-			
-			//console.log(distSquared);
+			var ds = distanceSquared({x:beater.input.mouseX, y:beater.input.mouseY},
+					{x:this.hitCircles[i].centerX, y:this.hitCircles[i].centerY});
 			
 			// if dist^2 <= radius^2
-			if(distSquared <= this.hitCircles[i].radius * this.hitCircles[i].radius)
+			if(ds <= this.hitCircles[i].radius * this.hitCircles[i].radius)
 			{
 				// collision resolution
 				var diff = this.hitCircles[i].radiusDifference();

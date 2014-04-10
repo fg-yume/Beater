@@ -16,6 +16,7 @@ Modernizr.load(
 	{
 		// files to load
 		load : [
+			'scripts/utilities.js',
 			'scripts/ring.js',
 			'scripts/circle.js',
 			'scripts/input.js',
