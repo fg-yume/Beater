@@ -36,11 +36,6 @@ beater.main = {
 	// Game variables	------------------------------------
 	previousState 	: undefined,	// previous game state
 	currentState 	: undefined,	// current game state
-	hitCircles		: undefined,	// hit circles currently in the game
-	testTimer		: 50,
-	
-	//testFunc : this.changeState(beater.GAME_STATE.GAME, false),
-	
 	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!", function(){
 		//this.changeState.bind(this);
 		
@@ -89,28 +84,12 @@ beater.main = {
 		// defaults
 		this.previousState 	= beater.GAME_STATE.MAIN;
 		this.currentState 	= beater.GAME_STATE.MAIN;
-		this.hitCircles		= new Array();	
+		//this.hitCircles		= new Array();	
 		
-		this.update();
-	},
-	
-	/*
-	 * Updates all entities in the game
-	 *
-	 * @return	none
-	 */
-	updateObjects : function()
-	{
-		// update circles
-		for(var i=0; i < this.hitCircles.length; i++)
-		{
-			this.hitCircles[i].update();
-		}
-			
-		// filter out circles that have completed their lifetime
-		this.hitCircles = this.hitCircles.filter(function(hitCircle){
-			return !hitCircle.isComplete();
-		});
+		beater.game.init();
+		
+		// begin loop
+		this.loop();
 	},
 
 	/*
@@ -132,25 +111,14 @@ beater.main = {
 
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
-			this.updateObjects();
-			
-			// test
-			this.testTimer -= 1;
-			if(this.testTimer <= 0)
-			{
-				this.hitCircles.push(new beater.Circle(beater.input.mouseX, beater.input.mouseY, 10, '#aaa', '#999', 100));
-				
-				//console.log(currMouseX +" " + currMouseY);
-				
-				this.testTimer = 100;
-			}
+			beater.game.update();
 		}
 		
 		// draw
-		this.draw();
+		//this.draw();
 		
 		// set loop
-		requestAnimationFrame(this.update.bind(this));
+		//requestAnimationFrame(this.update.bind(this));
 	},
 
 	/*
@@ -181,9 +149,7 @@ beater.main = {
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
-			// draw hit circles
-			for(var i=0; i < this.hitCircles.length; i++)
-				this.hitCircles[i].draw(beater.CTX);
+			beater.game.draw(beater.CTX);
 		}
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
@@ -198,6 +164,14 @@ beater.main = {
 			
 			beater.CTX.restore();
 		}
+	},
+	
+	loop : function()
+	{
+		this.update();
+		this.draw();
+		
+		requestAnimationFrame(this.loop.bind(this));
 	},
 	
 	/*
@@ -221,52 +195,6 @@ beater.main = {
 		}
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
-		{
-			// game collision detection
-			for(var i = 0; i < this.hitCircles.length; i++)
-			{
-				var distSquared = ((beater.input.mouseX - this.hitCircles[i].centerX) * 
-				(beater.input.mouseX - this.hitCircles[i].centerX)) + 
-				((beater.input.mouseY - this.hitCircles[i].centerY) * 
-				(beater.input.mouseY - this.hitCircles[i].centerY))
-				
-				//console.log(distSquared);
-				
-				// if dist^2 <= radius^2
-				if(distSquared <= this.hitCircles[i].radius * this.hitCircles[i].radius)
-				{
-					// collision resolution
-					var diff = this.hitCircles[i].radiusDifference();
-					if(diff <= 1)
-					{
-						// score += 30
-						// multiplier ++
-						// hp stuff
-					}
-						
-					else if(diff <= 3)
-					{
-						// score += 10
-						// multiplier ++
-						// hp stuff
-					}
-						
-					else if (diff <= 5)
-					{
-						// score += 5
-						// multiplier ++
-						// hp stuff
-					}
-						
-					else
-					{
-						// multiplier = 1;
-					}
-					
-					// break out of loop
-					break;
-				}
-			}
-		}
+			beater.game.clickCheck();
 	}
 };
