@@ -48,8 +48,10 @@ beater.input =
 	 */
 	setMouse : function(newMS)
 	{
+		
 		this.currentMouseState.isDown	= newMS;
-		this.updateMouse();
+		console.log("mouse change to " + this.currentMouseState.isDown);
+		this.udMouse();
 	},
 	
 	/*
@@ -84,24 +86,17 @@ beater.input =
 				beater.main.changeState(beater.GAME_STATE.GAME);
 		}
 	},
-
-	/*
-	 * Updates the mouse position and state
-	 *
-	 * @param	event	the event object received (mouse)
-	 *
-	 * @return	none
-	 */
-	updateMouse : function(event)
+	
+	moveMouse : function(event)
 	{
-		// update position if necessary
-		if(undefined !== event)
-		{
-			this.currentMouseState.pos.x = event.pageX - beater.OFFSET_LEFT;
-			this.currentMouseState.pos.y = event.pageY - beater.OFFSET_TOP;
-		}
-		
-		// clicks
+		// update position of the mouse
+		this.currentMouseState.pos.x = event.pageX - beater.OFFSET_LEFT;
+		this.currentMouseState.pos.y = event.pageY - beater.OFFSET_TOP;
+	},
+	
+	udMouse : function()
+	{
+		// presses
 		if(!this.previousMouseState.isDown && this.currentMouseState.isDown)
 			this.mouseDown = true;
 		
@@ -114,8 +109,21 @@ beater.input =
 			
 		else
 			this.mouseUp = false;
+	},
+
+	/*
+	 * Updates the mouse position and state
+	 *
+	 * @param	event	the event object received (mouse)
+	 *
+	 * @return	none
+	 */
+	updateMouse : function(event)
+	{	
+		console.log("mouseUp: " + this.mouseUp);
+		console.log("mouseDown: " + this.mouseDown);
+		//console.log("pos: " + this.currentMouseState.pos.x + ", " + this.currentMouseState.pos.y);
 		
-		// update prev. mouse state
 		this.previousMouseState = this.currentMouseState;
 	}
 };

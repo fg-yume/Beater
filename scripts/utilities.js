@@ -39,7 +39,7 @@ var pointInRect = function(a, b)
 	var intersects;
 	
 	if((b.x <= a.x && b.x + b.width >= a.x) &&
-	(b.y <= a.y && b.y + b.height >= b.y))
+	(b.y <= a.y && b.y + b.height >= a.y))
 		intersects = true;
 		
 	else

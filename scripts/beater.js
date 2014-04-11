@@ -36,12 +36,25 @@ beater.main = {
 	// Game variables	------------------------------------
 	previousState 	: undefined,	// previous game state
 	currentState 	: undefined,	// current game state
-	screens			: undefined,	// screens for the game
 	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!", function(){
 		//this.changeState.bind(this);
-		
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
+	mainScreen 		: undefined,
+	instructionScreen	: undefined,
+	gameScreen			: undefined,
+	gameOverScreen		: undefined,
+	gameWinScreen		: undefined,
+	pauseScreen			: undefined,
+	
+	gameButton			: undefined,
+	mainMenuButton		: undefined,
+	instructionsButton	: undefined,
+	
+	mainLabel		: undefined,
+	pauseLabel		: undefined,
+	gameOverLabel	: undefined,
+	gameWinLabel	: undefined,
 
 	// Game methods		------------------------------------
 
@@ -92,22 +105,25 @@ beater.main = {
 		// screens 	---------------------------------
 		this.mainScreen 		= new beater.Screen("#000", "#F26");
 		this.instructionScreen 	= new beater.Screen("#222", "#F26");
-		this.gameScreen			= new beater.Screen("#444", "#F26");
+		this.gameScreen			= new beater.Screen("#213512", "#F26");
 		this.pauseScreen		= new beater.Screen("#666", "#F26");
 		this.gameOverScreen		= new beater.Screen("#888", "#F26");
 		this.gameWinScreen		= new beater.Screen("#AAA", "#F26");
 		
+		this.changeState.bind(this);
+		
 		// buttons	---------------------------------
-		this.instructionsButton	= new beater.Button(400, 700, 100, 30, "#012345", "#CCC", "Inst", function(){
-			this.changeState(beater.GAME_STATE.INSTRUCTIONS, false);
+		this.instructionButton	= new beater.Button(400, 700, 100, 30, "#012345", "#CCC", "Inst", function(){
+			beater.main.changeState(beater.GAME_STATE.INSTRUCTIONS, false);
 		});
 		
 		this.mainMenuButton 		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
-			this.changeState(beater.GAME_STATE.MAIN, false);
+			beater.main.changeState(beater.GAME_STATE.MAIN, false);
 		});
 		
 		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
-			this.changeState(beater.GAME_STATE.GAME, false);
+			//this.changeState.bind(this);
+			beater.main.changeState(beater.GAME_STATE.GAME, false);
 		});
 		
 		// labels	---------------------------------
@@ -122,8 +138,11 @@ beater.main = {
 		// append to screens
 		
 		this.mainScreen.addItem(this.gameButton);
-		this.mainScreen.addItem(this.instructionsButton);
+		this.mainScreen.addItem(this.instructionButton);
 		this.mainScreen.addItem(this.mainLabel);
+		
+		//this.instructionScreen.addItem(this.instructionButton);
+		this.instructionScreen.addItem(this.mainMenuButton);
 		
 		// begin loop
 		this.loop();
@@ -145,10 +164,10 @@ beater.main = {
 			this.checkCollisions();
 		
 		if(this.currentState == beater.GAME_STATE.MAIN)
-		{
-			//this.testButton.update();
 			this.mainScreen.update();
-		}
+			
+		if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+			this.instructionScreen.update();
 
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
@@ -169,8 +188,12 @@ beater.main = {
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
+			this.gameScreen.draw(beater.CTX);
 			beater.game.draw(beater.CTX);
 		}
+		
+		if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+			this.instructionScreen.draw(beater.CTX);
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 		{
@@ -202,9 +225,10 @@ beater.main = {
 	checkCollisions : function()
 	{		
 		if(this.currentState == beater.GAME_STATE.MAIN)
-		{
 			this.mainScreen.mouseCheck();
-		}
+		
+		if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+			this.instructionScreen.mouseCheck();
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 			beater.game.clickCheck();

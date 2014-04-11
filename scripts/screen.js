@@ -92,14 +92,13 @@ beater.Screen = (function()
 		}
 	};
 	
-	Screen.prototype.checkCollisions = function()
+	Screen.prototype.mouseCheck = function()
 	{
 		for(var i=0; i < this.objects.length; i++)
 		{
-			if(pointInRect(beater.input.currentMouseState.pos, objects[i].pos) &&
-				typeof this.objects[i] === beater.Button)
+			if(pointInRect(beater.input.currentMouseState.pos, {x: this.objects[i].pos.x, y: this.objects[i].pos.y, width: this.objects[i].size.width, height: this.objects[i].size.width}))
 			{
-				objects[i].clicked = true;
+				this.objects[i].clicked = true;
 				break;
 			}
 		}

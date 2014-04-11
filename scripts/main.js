@@ -19,10 +19,10 @@ Modernizr.load(
 			'scripts/utilities.js',
 			'scripts/ring.js',
 			'scripts/circle.js',
-			'scripts/input.js',
 			'scripts/button.js',
 			'scripts/label.js',
 			'scripts/screen.js',
+			'scripts/input.js',
 			'scripts/game.js',
 			'scripts/beater.js'
 		],
@@ -91,7 +91,8 @@ Modernizr.load(
 			
 			document.querySelector("#canvas").addEventListener('mousemove',
 			function(e){
-				beater.input.updateMouse();
+				beater.input.moveMouse(e);
+				console.log("mouse move");
 			});
 			
 			// start up 'beater'
