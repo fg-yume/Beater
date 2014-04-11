@@ -30,10 +30,14 @@ beater.Button = (function()
 	 */
 	var Button = function(x, y, width, height, fill, stroke, text, func)
 	{
-		this.x		= x;
-		this.y		= y;
-		this.width	= width;
-		this.height	= height;
+		this.pos 	= {
+			x : x,
+			y : y
+		};
+		this.size	= {
+			width : width,
+			height : height
+		};
 		this.fill	= fill;
 		this.stroke	= stroke;
 		this.text	= text;
@@ -68,10 +72,14 @@ beater.Button = (function()
 			ctx.strokeStyle = this.stroke;
 			ctx.lineWidth = STROKE_WIDTH;
 			
+			// this breaks!
+			//ctx.rect(this.pos.x, this.pos.y, this.size.width, this.size.height);
+			//ctx.fill();
+			//ctx.stroke();
+			
 			// draw
-			ctx.rect(this.x, this.y, this.width, this.height);
-			ctx.fill();
-			ctx.stroke();
+			ctx.fillRect(this.pos.x, this.pos.y, this.size.width, this.size.height);
+			ctx.strokeRect(this.pos.x, this.pos.y, this.size.width, this.size.height);
 		
 		// revert changes - post rectangle
 		ctx.restore();
@@ -81,10 +89,10 @@ beater.Button = (function()
 		
 			// text settings
 			ctx.font = "12px Arial";
-			ctx.fillStyle = "#FFF";
+			ctx.fillStyle = "#3A3CB1";
 			
 			// draw
-			ctx.fillText(this.text, this.x + this.width/4, this.y + this.height/2);
+			ctx.fillText(this.text, this.pos.x + this.size.width/4, this.pos.y + this.size.height/2);
 		
 		// revert changes - post text
 		ctx.restore();

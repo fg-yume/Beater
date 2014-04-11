@@ -10,12 +10,12 @@
 
 var beater = beater || {};
 
-beater.label = (function()
+beater.Label = (function()
 {
 	// private  ----------------------------------------
 	var TEXT_BASELINE = "middle";
 	var TEXT_ALIGN	= "center";
-	
+
 	// public	----------------------------------------
 	
 	/*
@@ -62,6 +62,18 @@ beater.label = (function()
 	};
 	
 	/*
+	 * Changes the text of the label to the given parameter
+	 *
+	 * @param	newText	the new text for the label
+	 *
+	 * @return	none
+	 */
+	Label.prototype.Text = function(newText)
+	{
+		this.text = newText;
+	};
+	
+	/*
 	 * Updates the label
 	 *
 	 * @return none
@@ -84,6 +96,7 @@ beater.label = (function()
 		ctx.save();
 		
 			// settings
+			ctx.font			= this.size + "px " + this.font;
 			ctx.textBaseline 	= TEXT_BASELINE;
 			ctx.textAlign 		= TEXT_ALIGN;
 			ctx.fillStyle 		= this.color.fill;

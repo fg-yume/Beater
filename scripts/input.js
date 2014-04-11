@@ -9,14 +9,48 @@
  
 var beater = beater || {};
 
-// Game constants	------------------------------------
+// Mouse	---------------------------------------------------
+beater.Mouse = (function(){
+	var Mouse = function(x, y, isDown)
+	{
+		this.pos = {
+			x : x,
+			y : y
+		};
+		
+		if(undefined !== isDown)
+			this.isDown = isDown;
+			
+		else
+			this.isDown = false;
+	};
+	
+	return Mouse;
+})();
+
+// Input	-------------------------------------------------
 
 beater.input = 
 {
 	// Game variables	------------------------------------
-	keydown : [], 			// keys that are currently down
-	mouseX	: undefined,	// x-coord of mouse
-	mouseY	: undefined,	// y-coord of mouse
+	keydown 			: [], 			// keys that are currently down
+	currentMouseState	: new beater.Mouse(0, 0, false), // current mouse state
+	previousMouseState	: new beater.Mouse(0, 0, false), // previous mouse state
+	mouseDown			: false,
+	mouseUp				: false,
+	
+	/*
+	 * Sets the current state of the mouse to the parameter
+	 *
+	 * @param	newMS	the new mouse state to change to
+	 *
+	 * @return	none
+	 */
+	setMouse : function(newMS)
+	{
+		this.currentMouseState.isDown	= newMS;
+		this.updateMouse();
+	},
 	
 	/*
 	 * Handles keyboard presses during the various states in the game
@@ -25,7 +59,23 @@ beater.input =
 	 */
 	pollKeyboard : function()
 	{
-		//console.log("poll");
+		// not in the 'pause' state
+		if(beater.main.currentState != beater.GAME_STATE.PAUSE)
+			if(this.keydown[beater.KEYBOARD.KEY_P])
+				beater.main.changeState(beater.GAME_STATE.PAUSE);
+		
+		// 'game' state
+		if(beater.main.currentState == beater.GAME_STATE.GAME)
+		{
+			if(this.keydown[beater.KEYBOARD.KEY_Z] || this.keydown[beater.KEYBOARD.KEY_X])
+			{
+				// spawn circle
+				beater.game.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
+				
+				// test
+				beater.game.hitCircles.push(new beater.Circle(this.mouseX + 50, this.mouseY-10, 10, '#aaa', '#999', 100));
+			}
+		}
 		
 		// 'main' state
 		if(beater.main.currentState == beater.GAME_STATE.MAIN)
@@ -33,41 +83,39 @@ beater.input =
 			if(this.keydown[beater.KEYBOARD.KEY_Z])
 				beater.main.changeState(beater.GAME_STATE.GAME);
 		}
-
-		// 'game' state
-		if(beater.main.currentState == beater.GAME_STATE.GAME)
-		{
-			if(this.keydown[beater.KEYBOARD.KEY_Z] || this.keydown[beater.KEYBOARD.KEY_X])
-			{
-				// spawn circle
-				beater.main.hitCircles.push(new beater.Circle(this.mouseX, this.mouseY, 10, '#aaa', '#999', 100));
-				
-				// test
-				beater.main.hitCircles.push(new beater.Circle(this.mouseX + 50, this.mouseY-10, 10, '#aaa', '#999', 100));
-				
-				//console.log("spawned circle");
-			}
-		}
-		
-		// not in the 'pause' state
-		if(beater.main.currentState != beater.GAME_STATE.PAUSE)
-			if(this.keydown[beater.KEYBOARD.KEY_P])
-				beater.main.changeState(beater.GAME_STATE.PAUSE);
 	},
 
 	/*
-	 * Updates the position of the mouse
+	 * Updates the mouse position and state
 	 *
-	 * @param	event	the event object received
+	 * @param	event	the event object received (mouse)
 	 *
 	 * @return	none
 	 */
 	updateMouse : function(event)
 	{
-		// proper offsets
-		this.mouseX = event.pageX - beater.OFFSET_LEFT;
-		this.mouseY = event.pageY - beater.OFFSET_TOP;
+		// update position if necessary
+		if(undefined !== event)
+		{
+			this.currentMouseState.pos.x = event.pageX - beater.OFFSET_LEFT;
+			this.currentMouseState.pos.y = event.pageY - beater.OFFSET_TOP;
+		}
 		
-		//console.log(beater.main.mouseX + ", " + beater.main.mouseY);
+		// clicks
+		if(!this.previousMouseState.isDown && this.currentMouseState.isDown)
+			this.mouseDown = true;
+		
+		else
+			this.mouseDown = false;
+			
+		// releases
+		if(this.previousMouseState.isDown && !this.currentMouseState.isDown)
+			this.mouseUp = true;
+			
+		else
+			this.mouseUp = false;
+		
+		// update prev. mouse state
+		this.previousMouseState = this.currentMouseState;
 	}
 };

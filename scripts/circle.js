@@ -35,8 +35,10 @@ beater.Circle = (function()
 	 */
 	var Circle = function(centerX, centerY, radius, fillColor, strokeColor, timer)
 	{
-		this.centerX		= centerX;
-		this.centerY		= centerY;
+		this.center 		= {
+			x : centerX,
+			y : centerY
+		};
 		this.radius			= radius;
 		this.fillColor		= fillColor.toString();
 		this.strokeColor	= strokeColor.toString();
@@ -47,7 +49,7 @@ beater.Circle = (function()
 		//this.createRing.bind(this);
 		
 		// Create outer ring
-		this.createRing(this.centerX, this.centerY, this.radius * RING_RELATIVE_RADIUS, this.radius, this.fillColor, timer);
+		this.createRing(this.center.x, this.center.y, this.radius * RING_RELATIVE_RADIUS, this.radius, this.fillColor, timer);
 	};
 	
 	/*
@@ -81,7 +83,7 @@ beater.Circle = (function()
 	 */
 	Circle.prototype.left = function()
 	{
-		return this.centerX - this.radius;
+		return this.center.x - this.radius;
 	};
 	
 	/*
@@ -91,7 +93,7 @@ beater.Circle = (function()
 	 */
 	Circle.prototype.right = function()
 	{
-		return this.centerX + this.radius;
+		return this.center.x + this.radius;
 	};
 	
 	/*
@@ -101,7 +103,7 @@ beater.Circle = (function()
 	 */
 	Circle.prototype.up = function()
 	{
-		return this.centerY - this.radius;
+		return this.center.y - this.radius;
 	};
 	
 	/*
@@ -111,7 +113,7 @@ beater.Circle = (function()
 	 */
 	Circle.prototype.down = function()
 	{
-		return this.centerY + this.radius;
+		return this.center.y + this.radius;
 	};
 	
 	/*
@@ -152,7 +154,7 @@ beater.Circle = (function()
 		
 		// path
 		ctx.beginPath();
-			ctx.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI, false);
+			ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI, false);
 		ctx.closePath();
 		
 		// draw

@@ -48,9 +48,14 @@ beater.Screen = (function()
 	 */
 	Screen.prototype.update = function()
 	{
-		this.objects.forEach(function(obj){
+		/*this.objects.forEach(function(obj){
 			obj.update();
-		});
+		});*/
+		for(var i=0; i<this.objects.length; i++)
+		{
+			//this.objects[i].update();
+			this.action("update", i);
+		}
 	};
 	
 	/*
@@ -62,9 +67,54 @@ beater.Screen = (function()
 	 */
 	Screen.prototype.draw = function(ctx)
 	{
-		this.objects.forEach(function(obj){
-			obj.draw(ctx);
-		});
+		ctx.save();
+		
+		// clear screen
+		ctx.clearRect(0, 0, beater.WIDTH, beater.HEIGHT);
+		
+		// settings
+		ctx.fillStyle 	= this.color.fill;
+		ctx.strokeStyle = this.color.stroke;
+		ctx.lineWidth 	= 50;
+		
+		// draw background
+		ctx.rect(0, 0, beater.WIDTH, beater.HEIGHT);
+		ctx.fill();
+		ctx.stroke();
+		
+		ctx.restore();
+	
+		// draw objects
+		for(var i=0; i< this.objects.length; i++)
+		{
+			//this.objects[i].draw(ctx);
+			this.action("draw", i, ctx);
+		}
+	};
+	
+	Screen.prototype.checkCollisions = function()
+	{
+		for(var i=0; i < this.objects.length; i++)
+		{
+			if(pointInRect(beater.input.currentMouseState.pos, objects[i].pos) &&
+				typeof this.objects[i] === beater.Button)
+			{
+				objects[i].clicked = true;
+				break;
+			}
+		}
+	};
+	
+	Screen.prototype.action = function(type, iterator, arg)
+	{
+		if("draw" === type)
+			this.objects[iterator].draw(arg);
+			
+		else if("update" === type)
+			this.objects[iterator].update();
+			
+		else
+			console.log("Invalid action called!");
 	};
 	
 	// public API

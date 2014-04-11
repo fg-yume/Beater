@@ -81,20 +81,17 @@ Modernizr.load(
 			 * @return	none
 			 */
 			document.querySelector("#canvas").addEventListener('mousedown', function(e){
-				//console.log("canvas clicked :#");
-				beater.main.checkCollisions();
+				beater.input.setMouse(true);
 			});
 			
+			document.querySelector("#canvas").addEventListener('mouseup',
+			function(e){
+				beater.input.setMouse(false);
+			});
 			
-			/*
-			 * Action to take when the mouse is moved on the canvas
-			 *
-			 * @return 	none
-			 */
 			document.querySelector("#canvas").addEventListener('mousemove',
 			function(e){
-				//console.log("mouse move on canvas");
-				beater.input.updateMouse(e);
+				beater.input.updateMouse();
 			});
 			
 			// start up 'beater'

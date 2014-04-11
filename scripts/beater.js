@@ -36,6 +36,7 @@ beater.main = {
 	// Game variables	------------------------------------
 	previousState 	: undefined,	// previous game state
 	currentState 	: undefined,	// current game state
+	screens			: undefined,	// screens for the game
 	testButton		: new beater.Button(beater.WIDTH/2, beater.HEIGHT/2, 50, 30, "#333", "#666", "Start!", function(){
 		//this.changeState.bind(this);
 		
@@ -79,14 +80,50 @@ beater.main = {
 	 */
 	init : function()
 	{
+		// initialize values for the game
+		beater.game.init();
+		
 		//console.log("init this");
 		
-		// defaults
+		// defaults	---------------------------------
 		this.previousState 	= beater.GAME_STATE.MAIN;
 		this.currentState 	= beater.GAME_STATE.MAIN;
-		//this.hitCircles		= new Array();	
 		
-		beater.game.init();
+		// screens 	---------------------------------
+		this.mainScreen 		= new beater.Screen("#000", "#F26");
+		this.instructionScreen 	= new beater.Screen("#222", "#F26");
+		this.gameScreen			= new beater.Screen("#444", "#F26");
+		this.pauseScreen		= new beater.Screen("#666", "#F26");
+		this.gameOverScreen		= new beater.Screen("#888", "#F26");
+		this.gameWinScreen		= new beater.Screen("#AAA", "#F26");
+		
+		// buttons	---------------------------------
+		this.instructionsButton	= new beater.Button(400, 700, 100, 30, "#012345", "#CCC", "Inst", function(){
+			this.changeState(beater.GAME_STATE.INSTRUCTIONS, false);
+		});
+		
+		this.mainMenuButton 		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
+			this.changeState(beater.GAME_STATE.MAIN, false);
+		});
+		
+		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
+			this.changeState(beater.GAME_STATE.GAME, false);
+		});
+		
+		// labels	---------------------------------
+		this.mainLabel			= new beater.Label("Helvetica", "Beater: By Freddy Garcia", 50, beater.WIDTH/2, 200, "#FFF", "#000");
+		
+		this.pauseLabel			= new beater.Label("Helvetica", "Pause!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		
+		this.gameOverLabel		= new beater.Label("Helvetica", "Game Over!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		
+		this.gameWinLabel 		= new beater.Label("Helvetica", "Game Win!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		
+		// append to screens
+		
+		this.mainScreen.addItem(this.gameButton);
+		this.mainScreen.addItem(this.instructionsButton);
+		this.mainScreen.addItem(this.mainLabel);
 		
 		// begin loop
 		this.loop();
@@ -99,26 +136,25 @@ beater.main = {
 	 */
 	update : function()
 	{
-		//this.previousState = this.currentState;
-		
 		// input
 		beater.input.pollKeyboard();
+		//beater.input.updateMouse();
+		
+		// check for clicks
+		if(beater.input.mouseDown)
+			this.checkCollisions();
 		
 		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
-			this.testButton.update();
+			//this.testButton.update();
+			this.mainScreen.update();
 		}
 
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
+			this.gameScreen.update();
 			beater.game.update();
 		}
-		
-		// draw
-		//this.draw();
-		
-		// set loop
-		//requestAnimationFrame(this.update.bind(this));
 	},
 
 	/*
@@ -128,24 +164,8 @@ beater.main = {
 	 */
 	draw : function()
 	{
-		beater.CTX.clearRect(0, 0, beater.WIDTH, beater.HEIGHT);
-		
-		beater.CTX.fillStyle = '#ccc';
-		beater.CTX.fillRect(0, 0, beater.WIDTH, beater.HEIGHT);
-	
 		if(this.currentState == beater.GAME_STATE.MAIN)
-		{
-			this.testButton.draw(beater.CTX);
-			
-			beater.CTX.save();
-			
-			beater.CTX.fillStyle 	= "#FFF";
-			beater.CTX.font 		= "20px Arial";
-			
-			beater.CTX.fillText("Press Z while hovering over start button to begin!", 50, 200);
-			
-			beater.CTX.restore();
-		}
+			this.mainScreen.draw(beater.CTX);
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
@@ -175,7 +195,7 @@ beater.main = {
 	},
 	
 	/*
-	 * Check for collisions between the cursor and hit circles on the screen
+	 * Check for collisions between the the items on the screen
 	 *
 	 * @return	none
 	 */
@@ -183,15 +203,7 @@ beater.main = {
 	{		
 		if(this.currentState == beater.GAME_STATE.MAIN)
 		{
-			if(this.testButton.x <= beater.input.mouseX && this.testButton.x + this.testButton.width >= beater.input.mouseX)
-			{
-				console.log("first pass");
-				if(this.testButton.y <= beater.input.mouseY && this.testButton.y + this.testButton.height >= beater.input.mouseY)
-				{
-					console.log("second pass");
-					this.changeState(beater.GAME_STATE.GAME, false);
-				}
-			}
+			this.mainScreen.mouseCheck();
 		}
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
