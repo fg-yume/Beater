@@ -78,9 +78,11 @@ beater.Screen = (function()
 		ctx.lineWidth 	= 50;
 		
 		// draw background
-		ctx.rect(0, 0, beater.WIDTH, beater.HEIGHT);
-		ctx.fill();
-		ctx.stroke();
+		//ctx.rect(0, 0, beater.WIDTH, beater.HEIGHT);
+		//ctx.fill();
+		//ctx.stroke();
+		ctx.fillRect(0, 0, beater.WIDTH, beater.HEIGHT);
+		ctx.strokeRect(0, 0, beater.WIDTH, beater.HEIGHT);
 		
 		ctx.restore();
 	
