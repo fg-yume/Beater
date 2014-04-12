@@ -48,9 +48,7 @@ beater.input =
 	 */
 	setMouse : function(newMS)
 	{
-		
 		this.currentMouseState.isDown	= newMS;
-		console.log("mouse change to " + this.currentMouseState.isDown);
 		this.udMouse();
 	},
 	
@@ -87,6 +85,13 @@ beater.input =
 		}
 	},
 	
+	/*
+	 * Updates the position of the mouse
+	 *
+	 * @param	event	the mouse event that triggers this function
+	 *
+	 * @return	none
+	 */
 	moveMouse : function(event)
 	{
 		// update position of the mouse
@@ -94,6 +99,12 @@ beater.input =
 		this.currentMouseState.pos.y = event.pageY - beater.OFFSET_TOP;
 	},
 	
+	/*
+	 * Updates the up/down status of the mouse
+	 *
+	 *
+	 *
+	 */
 	udMouse : function()
 	{
 		// presses
@@ -119,11 +130,7 @@ beater.input =
 	 * @return	none
 	 */
 	updateMouse : function(event)
-	{	
-		console.log("mouseUp: " + this.mouseUp);
-		console.log("mouseDown: " + this.mouseDown);
-		//console.log("pos: " + this.currentMouseState.pos.x + ", " + this.currentMouseState.pos.y);
-		
+	{			
 		this.previousMouseState = this.currentMouseState;
 	}
 };

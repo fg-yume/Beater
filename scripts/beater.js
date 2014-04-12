@@ -40,7 +40,7 @@ beater.main = {
 		//this.changeState.bind(this);
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
-	mainScreen 		: undefined,
+	mainScreen 			: undefined,
 	instructionScreen	: undefined,
 	gameScreen			: undefined,
 	gameOverScreen		: undefined,
@@ -209,6 +209,11 @@ beater.main = {
 		}
 	},
 	
+	/*
+	 * The main loop for beater
+	 *
+	 * @return	none
+	 */
 	loop : function()
 	{
 		this.update();

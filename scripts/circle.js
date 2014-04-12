@@ -161,10 +161,10 @@ beater.Circle = (function()
 		ctx.fill();
 		ctx.stroke();
 		
-		this.ring.draw(ctx);
-		
 		// revert changes
 		ctx.restore();
+		
+		this.ring.draw(ctx);
 	};
 	
 	/*

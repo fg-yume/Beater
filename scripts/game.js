@@ -15,7 +15,7 @@ var beater = beater || {};
 beater.game = {
 	// Game variables	------------------------------------
 	hitCircles	: undefined, // hit circles currently in the game
-	testTimer	: 50,
+	testTimer	: 0,
 	
 	init : function()
 	{
@@ -49,13 +49,15 @@ beater.game = {
 	update : function()
 	{
 		this.updateObjects();
+		
+		//console.log("game update");
 			
 		// test
 		this.testTimer -= 1;
 		
 		if(this.testTimer <= 0)
 		{
-			this.hitCircles.push(new beater.Circle(beater.input.mouseX, beater.input.mouseY, 10, '#aaa', '#999', 100));
+			this.hitCircles.push(new beater.Circle(beater.input.currentMouseState.pos.x, beater.input.currentMouseState.pos.y, 10, '#aaa', '#999', 100));
 			
 			this.testTimer = 100;
 		}
@@ -78,11 +80,11 @@ beater.game = {
 	 *
 	 * @return	none
 	 */
-	loop : function()
+	/*loop : function()
 	{
 		this.update();
 		this.draw();
-	},
+	},*/
 	
 	/*
 	 * Check mouse clicks against the hit circles on the screen
@@ -94,8 +96,8 @@ beater.game = {
 		// game collision detection
 		for(var i = 0; i < this.hitCircles.length; i++)
 		{
-			var ds = distanceSquared({x:beater.input.mouseX, y:beater.input.mouseY},
-					{x:this.hitCircles[i].centerX, y:this.hitCircles[i].centerY});
+			var ds = distanceSquared(beater.input.currentMouseState.pos,
+					this.hitCircles[i].center);
 			
 			// if dist^2 <= radius^2
 			if(ds <= this.hitCircles[i].radius * this.hitCircles[i].radius)

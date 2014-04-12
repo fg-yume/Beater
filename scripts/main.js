@@ -92,7 +92,7 @@ Modernizr.load(
 			document.querySelector("#canvas").addEventListener('mousemove',
 			function(e){
 				beater.input.moveMouse(e);
-				console.log("mouse move");
+				//console.log("mouse move");
 			});
 			
 			// start up 'beater'
