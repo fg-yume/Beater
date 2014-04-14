@@ -9,6 +9,8 @@
 
 var beater = beater || {};		
 
+beater.animationID = undefined;
+
 /*
  * Modernizr being used to set entry point for the application and load necessary javascript files
  */
@@ -44,6 +46,10 @@ Modernizr.load(
 			 */
 			window.addEventListener('blur', function(){
 				beater.main.changeState("PAUSE", false);
+				cancelAnimationFrame(beater.animationID);
+				
+				beater.main.update();
+				beater.main.draw();
 			});
 			
 			/*
@@ -53,6 +59,7 @@ Modernizr.load(
 			 */
 			window.addEventListener('focus', function(){
 				//beater.main.changeState(beater.main.previousState, true);
+				beater.main.loop();
 			});
 			
 			/* 

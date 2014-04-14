@@ -142,6 +142,8 @@ beater.main = {
 		
 		this.gameWinLabel 		= new beater.Label("Helvetica", "Game Win!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
 		
+		this.pauseLabel			= new beater.Label("Helvetica", "Paused!", 50, beater.WIDTH/2, 200, "#F00", "#000");
+		
 		// append to screens
 		
 		this.mainScreen.addItem(this.gameButton);
@@ -152,6 +154,7 @@ beater.main = {
 		this.instructionScreen.addItem(this.mainMenuButton);
 		
 		this.pauseScreen.addItem(this.resumeButton);
+		this.pauseScreen.addItem(this.pauseLabel);
 		
 		// begin loop
 		this.loop();
@@ -189,7 +192,7 @@ beater.main = {
 	},
 
 	/*
-	 * Draws all of the objects in 'beater' to the rendering context
+	 * Draws the screens of the game when necessary, as well as the actual game
 	 *
 	 * @return	none
 	 */
@@ -208,18 +211,7 @@ beater.main = {
 			this.instructionScreen.draw(beater.CTX);
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
-		{
-			//console.log("draw pause");
-			/*beater.CTX.save();
-			
-				beater.CTX.fillStyle 	= "#FFF";
-				beater.CTX.font 		= "30px Arial";
-				
-				beater.CTX.fillText("Paused!", 200, 300);
-			
-			beater.CTX.restore();*/
 			this.pauseScreen.draw(beater.CTX);
-		}
 	},
 	
 	/*
@@ -229,10 +221,12 @@ beater.main = {
 	 */
 	loop : function()
 	{
+		console.log("loop");
+	
 		this.update();
 		this.draw();
 		
-		requestAnimationFrame(this.loop.bind(this));
+		beater.animationID = requestAnimationFrame(this.loop.bind(this));
 	},
 	
 	/*
