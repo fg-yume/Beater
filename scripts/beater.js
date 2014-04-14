@@ -23,7 +23,8 @@ beater.GAME_STATE = {
 	PAUSE			: "PAUSE",
 	GAME			: "GAME",
 	GAME_WIN		: "WIN",
-	GAME_LOSE		: "LOSE"
+	GAME_LOSE		: "LOSE",
+	LOAD			: "LOAD"
 }; 								// available game states
 
 beater.OFFSET_LEFT		= document.querySelector("#canvas").offsetLeft;			// canvas offset from left of window
@@ -40,7 +41,7 @@ beater.main = {
 		//this.changeState.bind(this);
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
-	mainScreen 			: undefined,
+	/*mainScreen 			: undefined,
 	instructionScreen	: undefined,
 	gameScreen			: undefined,
 	gameOverScreen		: undefined,
@@ -54,7 +55,7 @@ beater.main = {
 	mainLabel		: undefined,
 	pauseLabel		: undefined,
 	gameOverLabel	: undefined,
-	gameWinLabel	: undefined,
+	gameWinLabel	: undefined,*/
 
 	// Game methods		------------------------------------
 
@@ -109,6 +110,8 @@ beater.main = {
 		this.pauseScreen		= new beater.Screen("#666", "#F26");
 		this.gameOverScreen		= new beater.Screen("#888", "#F26");
 		this.gameWinScreen		= new beater.Screen("#AAA", "#F26");
+		this.loadMusicScreen	= new beater.Screen("#230143", "#F26");
+		this.pauseScreen		= new beater.Screen("#22001D", "#F26");
 		
 		this.changeState.bind(this);
 		
@@ -117,13 +120,17 @@ beater.main = {
 			beater.main.changeState(beater.GAME_STATE.INSTRUCTIONS, false);
 		});
 		
-		this.mainMenuButton 		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
+		this.mainMenuButton 	= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
 			beater.main.changeState(beater.GAME_STATE.MAIN, false);
 		});
 		
 		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
-			//this.changeState.bind(this);
+			//this.changeState.bind(this)
 			beater.main.changeState(beater.GAME_STATE.GAME, false);
+		});
+		
+		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
+			beater.main.changeState(beater.main.previousState, true);
 		});
 		
 		// labels	---------------------------------
@@ -143,6 +150,8 @@ beater.main = {
 		
 		//this.instructionScreen.addItem(this.instructionButton);
 		this.instructionScreen.addItem(this.mainMenuButton);
+		
+		this.pauseScreen.addItem(this.resumeButton);
 		
 		// begin loop
 		this.loop();
@@ -174,6 +183,9 @@ beater.main = {
 			this.gameScreen.update();
 			beater.game.update();
 		}
+		
+		if(this.currentState == beater.GAME_STATE.PAUSE)
+			this.pauseScreen.update();
 	},
 
 	/*
@@ -198,14 +210,15 @@ beater.main = {
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 		{
 			//console.log("draw pause");
-			beater.CTX.save();
+			/*beater.CTX.save();
 			
 				beater.CTX.fillStyle 	= "#FFF";
 				beater.CTX.font 		= "30px Arial";
 				
 				beater.CTX.fillText("Paused!", 200, 300);
 			
-			beater.CTX.restore();
+			beater.CTX.restore();*/
+			this.pauseScreen.draw(beater.CTX);
 		}
 	},
 	
@@ -237,5 +250,8 @@ beater.main = {
 	
 		if(this.currentState == beater.GAME_STATE.GAME)
 			beater.game.clickCheck();
+			
+		if(this.currentState == beater.GAME_STATE.PAUSE)
+			this.pauseScreen.mouseCheck();
 	}
 };

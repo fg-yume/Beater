@@ -52,7 +52,7 @@ Modernizr.load(
 			 * @return none
 			 */
 			window.addEventListener('focus', function(){
-				beater.main.changeState(beater.main.previousState, true);
+				//beater.main.changeState(beater.main.previousState, true);
 			});
 			
 			/* 

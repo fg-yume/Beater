@@ -89,8 +89,8 @@ beater.Screen = (function()
 		// draw objects
 		for(var i=0; i< this.objects.length; i++)
 		{
-			//this.objects[i].draw(ctx);
-			this.action("draw", i, ctx);
+			this.objects[i].draw(ctx);
+			//this.action("draw", i, ctx);
 		}
 	};
 	
@@ -98,6 +98,10 @@ beater.Screen = (function()
 	{
 		for(var i=0; i < this.objects.length; i++)
 		{
+			// don't check labels
+			if(this.objects[i] instanceof beater.Label)
+				continue;
+			
 			if(pointInRect(beater.input.currentMouseState.pos, {x: this.objects[i].pos.x, y: this.objects[i].pos.y, width: this.objects[i].size.width, height: this.objects[i].size.width}))
 			{
 				this.objects[i].clicked = true;

@@ -41,8 +41,10 @@ beater.Label = (function()
 		this.font	= fontFamily;
 		this.text	= text;
 		this.size	= size;
-		this.x		= x;
-		this.y		= y;
+		this.pos 	= {
+			x : x,
+			y : y
+		};
 		this.color 	= {
 			fill	: fill,
 			stroke	: stroke
@@ -112,7 +114,7 @@ beater.Label = (function()
 			}
 		
 			// draw
-			ctx.fillText(this.text, this.x, this.y);
+			ctx.fillText(this.text, this.pos.x, this.pos.y);
 			
 		// revert changes
 		ctx.restore();
