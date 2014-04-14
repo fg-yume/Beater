@@ -76,17 +76,6 @@ beater.game = {
 	},
 	
 	/*
-	 * The loop for the game section of 'Beater'
-	 *
-	 * @return	none
-	 */
-	/*loop : function()
-	{
-		this.update();
-		this.draw();
-	},*/
-	
-	/*
 	 * Check mouse clicks against the hit circles on the screen
 	 *
 	 * @return none

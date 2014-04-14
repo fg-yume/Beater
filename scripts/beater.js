@@ -118,6 +118,10 @@ beater.main = {
 			beater.main.changeState(beater.main.previousState, true);
 		});
 		
+		this.loadButton			= new beater.Button(500, 600, 100, 30, "#A34", "#CCC", "Select Music", function(){	
+			beater.main.changeState(beater.GAME_STATE.LOAD, false);
+		});
+		
 		// labels	---------------------------------
 		this.mainLabel			= new beater.Label("Helvetica", "Beater: By Freddy Garcia", 50, beater.WIDTH/2, 200, "#FFF", "#000");
 		
@@ -143,7 +147,7 @@ beater.main = {
 		this.pauseScreen.addItem(this.resumeButton);
 		this.pauseScreen.addItem(this.pauseLabel);
 		
-		this.loadScreen.addItem(this.loadLabel);
+		this.loadMusicScreen.addItem(this.loadLabel);
 		
 		// begin loop
 		this.loop();
