@@ -41,21 +41,6 @@ beater.main = {
 		//this.changeState.bind(this);
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
-	/*mainScreen 			: undefined,
-	instructionScreen	: undefined,
-	gameScreen			: undefined,
-	gameOverScreen		: undefined,
-	gameWinScreen		: undefined,
-	pauseScreen			: undefined,
-	
-	gameButton			: undefined,
-	mainMenuButton		: undefined,
-	instructionsButton	: undefined,
-	
-	mainLabel		: undefined,
-	pauseLabel		: undefined,
-	gameOverLabel	: undefined,
-	gameWinLabel	: undefined,*/
 
 	// Game methods		------------------------------------
 
@@ -144,6 +129,8 @@ beater.main = {
 		
 		this.pauseLabel			= new beater.Label("Helvetica", "Paused!", 50, beater.WIDTH/2, 200, "#F00", "#000");
 		
+		this.loadLabel			= new beater.Label("Helvetica", "Please drag a song onto the game screen!", 50, beater.WIDTH/2, 200, "#FFF", "#000");
+		
 		// append to screens
 		
 		this.mainScreen.addItem(this.gameButton);
@@ -155,6 +142,8 @@ beater.main = {
 		
 		this.pauseScreen.addItem(this.resumeButton);
 		this.pauseScreen.addItem(this.pauseLabel);
+		
+		this.loadScreen.addItem(this.loadLabel);
 		
 		// begin loop
 		this.loop();
