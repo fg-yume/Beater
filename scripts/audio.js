@@ -38,21 +38,35 @@ beater.audio = {
 		// events for reader
 		reader.addEventListener('progress', this.onProgress, false);
 		reader.addEventListener('loadend', function(event){
-			if(event.target.readyState == FileReader.DONE)
-			{
-				// DONE == 2
+			if(event.target.readyState == FileReader.DONE) // DONE == 2
 				beater.audio.onAudioLoad(event.target.result);
-			}
+			else
+				console.log("FILE IS NOT READY!");
 		}, false);
 		
 		reader.readAsArrayBuffer(file);
 	},
 	
+	/*
+	 * Updates the progress of the download for the file that was dropped on the screen
+	 *
+	 * @param	{FileReader} event	the event that will trigger this function
+	 *
+	 * @return	none
+	 */
 	onProgress : function(event)
-	{
-		console.log("loaded:" + event.loaded / event.total);
+	{	
+		beater.audio.percentLoaded = Math.round(event.loaded / event.total * 100).toFixed(2);
+		console.log(beater.audio.percentLoaded);
 	},
 	
+	/*
+	 * The function to call when the audio has finished loading
+	 * 
+	 * @param	{ArrayBuffer} arrayBuffer the array containing the audio data
+	 *
+	 * @return	none 
+	 */
 	onAudioLoad : function(arrayBuffer)
 	{
 		console.log("loaded!");
@@ -78,8 +92,6 @@ beater.audio = {
 			//a.sourceNode.start(0);
 			a.hasLoaded = true;
 		});
-	
-		audioLoaded = true;
 	},
 	
 	/*
