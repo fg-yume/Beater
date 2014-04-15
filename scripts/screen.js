@@ -53,8 +53,8 @@ beater.Screen = (function()
 		});*/
 		for(var i=0; i<this.objects.length; i++)
 		{
-			//this.objects[i].update();
-			this.action("update", i);
+			this.objects[i].data.update();
+			//this.action("update", i);
 		}
 	};
 	
@@ -89,7 +89,7 @@ beater.Screen = (function()
 		// draw objects
 		for(var i=0; i< this.objects.length; i++)
 		{
-			this.objects[i].draw(ctx);
+			this.objects[i].data.draw(ctx);
 			//this.action("draw", i, ctx);
 		}
 	};
@@ -99,12 +99,12 @@ beater.Screen = (function()
 		for(var i=0; i < this.objects.length; i++)
 		{
 			// don't check labels
-			if(this.objects[i] instanceof beater.Label)
+			if(this.objects[i].data instanceof beater.Label)
 				continue;
 			
-			if(pointInRect(beater.input.currentMouseState.pos, {x: this.objects[i].pos.x, y: this.objects[i].pos.y, width: this.objects[i].size.width, height: this.objects[i].size.width}))
+			if(pointInRect(beater.input.currentMouseState.pos, {x: this.objects[i].data.pos.x, y: this.objects[i].data.pos.y, width: this.objects[i].data.size.width, height: this.objects[i].data.size.width}))
 			{
-				this.objects[i].clicked = true;
+				this.objects[i].data.clicked = true;
 				break;
 			}
 		}
@@ -113,10 +113,10 @@ beater.Screen = (function()
 	Screen.prototype.action = function(type, iterator, arg)
 	{
 		if("draw" === type)
-			this.objects[iterator].draw(arg);
+			this.objects[iterator].data.draw(arg);
 			
 		else if("update" === type)
-			this.objects[iterator].update();
+			this.objects[iterator].data.update();
 			
 		else
 			console.log("Invalid action called!");

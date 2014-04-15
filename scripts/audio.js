@@ -12,7 +12,7 @@ beater.audio = {
 	audioCtx : undefined,
 	analyserNode : undefined,
 	sourceNode : undefined,
-	
+	hasLoaded : false,
 	
 	init : function()
 	{
@@ -20,13 +20,13 @@ beater.audio = {
 		this.audioCtx = new webkitAudioContext();
 	},
 	
+	/*
+	 * Loads the audio from the file that was dropped onto the screen.
+	 *
+	 * @param	{Event} event	the event (file) that triggers this function
+	 */
 	load : function(event)
 	{
-		//console.log(event);
-		//console.log(event.name);
-		// check file extension
-		//queue.loadFile({src: event.name, type:createjs.LoadQueue.SOUND});
-		
 		var file = event.dataTransfer.files[0]; // file
 		
 		console.log(file);
@@ -73,9 +73,20 @@ beater.audio = {
 			a.analyserNode.connect(a.audioCtx.destination);
 			
 			console.log("pero actually loaded tho");
-			a.sourceNode.start(0);	
+			//a.sourceNode.start(0);
+			a.hasLoaded = true;
 		});
 	
 		audioLoaded = true;
+	},
+	
+	/*
+	 * Plays the stored source node from the beginning
+	 *
+	 * @return	none
+	 */
+	play : function()
+	{
+		this.sourceNode.start(0);
 	}
 };

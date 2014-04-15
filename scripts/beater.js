@@ -46,19 +46,20 @@ beater.main = {
 
 	/*
 	 * Changes the state of the game to the specified new state.
-	 * A special case is used for the window going back into focus.
+	 * A special case is used for switching from pause state.
+	 * TODO: Re-work method in order to make use of a single variable for unpausing
 	 *
-	 * @param 	newState		The state to switch into
-	 * @param 	isUnpausing		Whether the state change involves unpausing the game
+	 * @param 	{beater.GAME_STATE} newState		The state to switch into
+	 * @param 	{Boolean}			isUnpausing		Whether the state change involves unpausing the game
 	 *
 	 * @return	none
 	 */
 	changeState : function(newState, isUnpausing)
 	{
-		// Return to the previous state from pause, rather than a completely new state
+		// Return to the previous state from pause, rather than a new state
 		if(isUnpausing)
 		{
-			var temp = newState;
+			var temp = newState; // assume newState == previousState
 					
 			this.previousState 	= this.currentState;
 			this.currentState	= temp;
@@ -82,8 +83,6 @@ beater.main = {
 		// initialize values for the game
 		beater.game.init();
 		beater.audio.init();
-		
-		//console.log("init this");
 		
 		// defaults	---------------------------------
 		this.previousState 	= beater.GAME_STATE.MAIN;
@@ -111,8 +110,8 @@ beater.main = {
 		});
 		
 		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
-			//this.changeState.bind(this)
-			beater.main.changeState(beater.GAME_STATE.LOAD, false);
+			beater.main.changeState(beater.GAME_STATE.GAME, false);
+			console.log("game");
 		});
 		
 		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
@@ -136,19 +135,23 @@ beater.main = {
 		
 		this.loadLabel			= new beater.Label("Helvetica", "Please drag a song onto the game screen!", 50, beater.WIDTH/2, 200, "#FFF", "#000");
 		
+		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2, 350, "#FFF", "#000");
+		
 		// append to screens
 		
-		this.mainScreen.addItem(this.gameButton);
-		this.mainScreen.addItem(this.instructionButton);
-		this.mainScreen.addItem(this.mainLabel);
+		this.mainScreen.addItem({data:this.loadButton, key:"button"});
+		this.mainScreen.addItem({data:this.instructionButton, key:"button"});
+		this.mainScreen.addItem({data:this.mainLabel, key:"label"});
 		
 		//this.instructionScreen.addItem(this.instructionButton);
-		this.instructionScreen.addItem(this.mainMenuButton);
+		this.instructionScreen.addItem({data:this.mainMenuButton, key:"button"});
 		
-		this.pauseScreen.addItem(this.resumeButton);
-		this.pauseScreen.addItem(this.pauseLabel);
+		this.pauseScreen.addItem({data:this.resumeButton, key:"button"});
+		this.pauseScreen.addItem({data:this.pauseLabel, key:"label"});
 		
-		this.loadMusicScreen.addItem(this.loadLabel);
+		this.loadMusicScreen.addItem({data:this.loadLabel, key:"label"});
+		this.loadMusicScreen.addItem({data:this.loadStatusLabel, key:"status"});
+		this.loadMusicScreen.addItem({data:this.gameButton, key:"button"});
 		
 		// begin loop
 		this.loop();
@@ -247,5 +250,8 @@ beater.main = {
 			
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.mouseCheck();
+			
+		if(this.currentState == beater.GAME_STATE.LOAD/* && beater.audio.hasLoaded*/)
+			this.loadMusicScreen.mouseCheck();
 	}
 };
