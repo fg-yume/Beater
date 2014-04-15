@@ -81,6 +81,7 @@ beater.main = {
 	{
 		// initialize values for the game
 		beater.game.init();
+		beater.audio.init();
 		
 		//console.log("init this");
 		
@@ -111,7 +112,7 @@ beater.main = {
 		
 		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
 			//this.changeState.bind(this)
-			beater.main.changeState(beater.GAME_STATE.GAME, false);
+			beater.main.changeState(beater.GAME_STATE.LOAD, false);
 		});
 		
 		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
@@ -182,6 +183,9 @@ beater.main = {
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.update();
+			
+		if(this.currentState == beater.GAME_STATE.LOAD)
+			this.loadMusicScreen.update();
 	},
 
 	/*
@@ -205,6 +209,9 @@ beater.main = {
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.draw(beater.CTX);
+			
+		if(this.currentState == beater.GAME_STATE.LOAD)
+			this.loadMusicScreen.draw(beater.CTX);
 	},
 	
 	/*

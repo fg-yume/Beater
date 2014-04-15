@@ -19,6 +19,7 @@ Modernizr.load(
 		// files to load
 		load : [
 			'scripts/utilities.js',
+			'scripts/audio.js',
 			'scripts/ring.js',
 			'scripts/circle.js',
 			'scripts/button.js',
@@ -45,11 +46,15 @@ Modernizr.load(
 			 * @return none
 			 */
 			window.addEventListener('blur', function(){
-				beater.main.changeState("PAUSE", false);
-				cancelAnimationFrame(beater.animationID);
-				
-				beater.main.update();
-				beater.main.draw();
+				if(beater.main.currentState != beater.GAME_STATE.LOAD)
+				{
+					beater.main.changeState("PAUSE", false);
+					cancelAnimationFrame(beater.animationID);
+					
+					// needed to display pause
+					beater.main.update();
+					beater.main.draw();
+				}
 			});
 			
 			/*
@@ -58,8 +63,11 @@ Modernizr.load(
 			 * @return none
 			 */
 			window.addEventListener('focus', function(){
-				//beater.main.changeState(beater.main.previousState, true);
-				beater.main.loop();
+				if(beater.main.currentState != beater.GAME_STATE.LOAD)
+				{
+					//beater.main.changeState(beater.main.previousState, true);
+					beater.main.loop();
+				}
 			});
 			
 			/* 
@@ -91,15 +99,40 @@ Modernizr.load(
 				beater.input.setMouse(true);
 			});
 			
+			/*
+			 * Action to take when the mouse goes up on the canvas
+			 *
+			 * @return	none
+			 */
 			document.querySelector("#canvas").addEventListener('mouseup',
 			function(e){
 				beater.input.setMouse(false);
 			});
 			
+			/*
+			 * Action to take when the mouse is moved on the canvas
+			 *
+			 * @return	none
+			 */
 			document.querySelector("#canvas").addEventListener('mousemove',
 			function(e){
 				beater.input.moveMouse(e);
 				//console.log("mouse move");
+			});
+			
+			document.querySelector("#canvas").addEventListener('dragover', function(e){
+				e.stopPropagation();
+				e.preventDefault();
+				e.dataTransfer.dropEffect = "link";
+			});
+			
+			document.querySelector("#canvas").addEventListener('drop', function(e){
+				e.stopPropagation();
+				e.preventDefault();
+				
+				// only load if on correct state
+				if(beater.main.currentState == beater.GAME_STATE.LOAD)
+					beater.audio.load(e);
 			});
 			
 			// start up 'beater'
