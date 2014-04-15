@@ -166,7 +166,6 @@ beater.main = {
 	{
 		// input
 		beater.input.pollKeyboard();
-		//beater.input.updateMouse();
 		
 		// check for clicks
 		if(beater.input.mouseDown)
@@ -201,20 +200,24 @@ beater.main = {
 		if(this.currentState == beater.GAME_STATE.MAIN)
 			this.mainScreen.draw(beater.CTX);
 	
-		if(this.currentState == beater.GAME_STATE.GAME)
+		else if(this.currentState == beater.GAME_STATE.GAME)
 		{
 			this.gameScreen.draw(beater.CTX);
 			beater.game.draw(beater.CTX);
 		}
 		
-		if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+		else if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
 			this.instructionScreen.draw(beater.CTX);
 		
-		if(this.currentState == beater.GAME_STATE.PAUSE)
+		else if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.draw(beater.CTX);
 			
-		if(this.currentState == beater.GAME_STATE.LOAD)
+		else if(this.currentState == beater.GAME_STATE.LOAD)
 			this.loadMusicScreen.draw(beater.CTX);
+		
+		// default - should not get here!
+		else
+			console.log("invalid state for drawing!");
 	},
 	
 	/*
@@ -242,16 +245,16 @@ beater.main = {
 		if(this.currentState == beater.GAME_STATE.MAIN)
 			this.mainScreen.mouseCheck();
 		
-		if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+		else if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
 			this.instructionScreen.mouseCheck();
 	
-		if(this.currentState == beater.GAME_STATE.GAME)
+		else if(this.currentState == beater.GAME_STATE.GAME)
 			beater.game.clickCheck();
 			
-		if(this.currentState == beater.GAME_STATE.PAUSE)
+		else if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.mouseCheck();
 			
-		if(this.currentState == beater.GAME_STATE.LOAD/* && beater.audio.hasLoaded*/)
+		else if(this.currentState == beater.GAME_STATE.LOAD/* && beater.audio.hasLoaded*/)
 			this.loadMusicScreen.mouseCheck();
 	}
 };

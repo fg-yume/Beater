@@ -13,6 +13,8 @@ beater.audio = {
 	analyserNode : undefined,
 	sourceNode : undefined,
 	hasLoaded : false,
+	percentLoaded : 0,
+	percentDecoded : 0,
 	
 	init : function()
 	{
