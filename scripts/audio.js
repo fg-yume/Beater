@@ -31,7 +31,7 @@ beater.audio = {
 	{
 		var file = event.dataTransfer.files[0]; // file
 		
-		console.log(file);
+		//console.log(file);
 		
 		var reader = new FileReader();
 		
@@ -43,6 +43,17 @@ beater.audio = {
 			else
 				console.log("FILE IS NOT READY!");
 		}, false);
+		
+		// add progress label
+		beater.main.loadMusicScreen.addItem(
+			{
+				data: new beater.Label("Helvetica", "Loading audio: 0%", 30, beater.WIDTH/2, 375, "#FFF", "#000"),
+				key: "percent"
+			}
+		);
+		
+		// modify status label
+		beater.main.loadMusicScreen.modify("status", {text: "Status: loading song", color: {fill: "#F00", stroke: "#000"}});
 		
 		reader.readAsArrayBuffer(file);
 	},
@@ -58,6 +69,10 @@ beater.audio = {
 	{	
 		beater.audio.percentLoaded = Math.round(event.loaded / event.total * 100).toFixed(2);
 		console.log(beater.audio.percentLoaded);
+		
+		// update screen labels
+		//beater.main.loadMusicScreen.modify(
+		beater.main.loadMusicScreen.modify("percent", {text: "loading audio: " + beater.audio.percentLoaded + "%"});
 	},
 	
 	/*
@@ -70,6 +85,10 @@ beater.audio = {
 	onAudioLoad : function(arrayBuffer)
 	{
 		console.log("loaded!");
+		
+		// modify status label
+		beater.main.loadMusicScreen.modify("status", {text: "Status: Decoding audio!"});
+		
 		var a = beater.audio;
 	
 		// check for sound already playing
@@ -88,7 +107,11 @@ beater.audio = {
 			
 			a.analyserNode.connect(a.audioCtx.destination);
 			
-			console.log("pero actually loaded tho");
+			//console.log("pero actually loaded tho");
+			
+			// modify status label
+			beater.main.loadMusicScreen.modify("status", {text: "Status: Ready! click play to begin!", color: {fill: "#0F0", stroke: "#000"}});
+			
 			//a.sourceNode.start(0);
 			a.hasLoaded = true;
 		});

@@ -135,7 +135,9 @@ beater.main = {
 		
 		this.loadLabel			= new beater.Label("Helvetica", "Please drag a song onto the game screen!", 50, beater.WIDTH/2, 200, "#FFF", "#000");
 		
-		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2, 350, "#FFF", "#000");
+		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2, 340, "#FFF", "#000");
+		
+		//this.loadPercentLabel	= new beater.Label("Helvetica", "File load: percent:
 		
 		// append to screens
 		

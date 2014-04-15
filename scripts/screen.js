@@ -78,9 +78,6 @@ beater.Screen = (function()
 		ctx.lineWidth 	= 50;
 		
 		// draw background
-		//ctx.rect(0, 0, beater.WIDTH, beater.HEIGHT);
-		//ctx.fill();
-		//ctx.stroke();
 		ctx.fillRect(0, 0, beater.WIDTH, beater.HEIGHT);
 		ctx.strokeRect(0, 0, beater.WIDTH, beater.HEIGHT);
 		
@@ -94,6 +91,41 @@ beater.Screen = (function()
 		}
 	};
 	
+	/*
+	 * Modifies the specified key with the given changes
+	 *
+	 * @param	{String} key		the key in the screen to modify
+	 * @param	{Object} changes	an object that encapsulates all of the changes to be made
+	 *
+	 * @return	none
+	 */
+	Screen.prototype.modify = function(key, changes)
+	{
+		// look for key
+		for(var i=0; i < this.objects.length; i++)
+		{
+			if(this.objects[i].key == key)
+			{
+				// Label changes
+				if(this.objects[i].data instanceof beater.Label)
+				{
+					if(changes.text)
+						this.objects[i].data.text = changes.text;
+						
+					if(changes.color)
+						this.objects[i].data.color = changes.color;
+				}
+			
+				break; // no need to continue
+			}
+		}
+	};
+	
+	/*
+	 * Checks the screen to see if the mouse position is currently intersecting with any clickable objects on the screen
+	 *
+	 * @return	none
+	 */
 	Screen.prototype.mouseCheck = function()
 	{
 		for(var i=0; i < this.objects.length; i++)
