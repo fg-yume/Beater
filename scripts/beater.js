@@ -112,6 +112,7 @@ beater.main = {
 		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
 			beater.main.changeState(beater.GAME_STATE.GAME, false);
 			console.log("game");
+			beater.audio.play();
 		});
 		
 		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
@@ -256,7 +257,7 @@ beater.main = {
 		else if(this.currentState == beater.GAME_STATE.PAUSE)
 			this.pauseScreen.mouseCheck();
 			
-		else if(this.currentState == beater.GAME_STATE.LOAD/* && beater.audio.hasLoaded*/)
+		else if(this.currentState == beater.GAME_STATE.LOAD && beater.audio.hasLoaded)
 			this.loadMusicScreen.mouseCheck();
 	}
 };
