@@ -124,19 +124,19 @@ beater.main = {
 		});
 		
 		// labels	---------------------------------
-		this.mainLabel			= new beater.Label("Helvetica", "Beater: By Freddy Garcia", 50, beater.WIDTH/2, 200, "#FFF", "#000");
+		this.mainLabel			= new beater.Label("Helvetica", "Beater: By Freddy Garcia", 50, beater.WIDTH/2 - 250, 200, "#FFF", "#000");
 		
-		this.pauseLabel			= new beater.Label("Helvetica", "Pause!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		this.pauseLabel			= new beater.Label("Helvetica", "Pause!", 15, beater.WIDTH/2 - 250, 50, "#FFF", "#000");
 		
-		this.gameOverLabel		= new beater.Label("Helvetica", "Game Over!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		this.gameOverLabel		= new beater.Label("Helvetica", "Game Over!", 15, beater.WIDTH/2 - 250, 50, "#FFF", "#000");
 		
-		this.gameWinLabel 		= new beater.Label("Helvetica", "Game Win!", 15, beater.WIDTH/2, 50, "#FFF", "#000");
+		this.gameWinLabel 		= new beater.Label("Helvetica", "Game Win!", 15, beater.WIDTH/2 - 250, 50, "#FFF", "#000");
 		
-		this.pauseLabel			= new beater.Label("Helvetica", "Paused!", 50, beater.WIDTH/2, 200, "#F00", "#000");
+		this.pauseLabel			= new beater.Label("Helvetica", "Paused!", 50, beater.WIDTH/2 - 250, 200, "#F00", "#000");
 		
-		this.loadLabel			= new beater.Label("Helvetica", "Please drag a song onto the game screen!", 50, beater.WIDTH/2, 200, "#FFF", "#000");
+		this.loadLabel			= new beater.Label("Helvetica", "Please drag a song onto the game screen!", 50, beater.WIDTH/2 - 480, 200, "#FFF", "#000");
 		
-		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2, 340, "#FFF", "#000");
+		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2 - 200, 340, "#FFF", "#000");
 		
 		this.scoreLabel 		= new beater.Label("Helvetica", "Score: 0", 25, 90, 40, "#FFF", "#000");
 		

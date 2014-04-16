@@ -18,8 +18,10 @@ beater.audio = {
 	
 	init : function()
 	{
+		// set up the audio context that is supported in the browser
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		console.log("audio init");
-		this.audioCtx = new webkitAudioContext();
+		this.audioCtx = new AudioContext();
 	},
 	
 	/*
@@ -47,7 +49,7 @@ beater.audio = {
 		// add progress label
 		beater.main.loadMusicScreen.addItem(
 			{
-				data: new beater.Label("Helvetica", "Loading audio: 0%", 30, beater.WIDTH/2, 375, "#FFF", "#000"),
+				data: new beater.Label("Helvetica", "Loading audio: 0%", 30, beater.WIDTH/2 - 210, 375, "#FFF", "#000"),
 				key: "percent"
 			}
 		);
