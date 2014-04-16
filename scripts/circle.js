@@ -66,59 +66,19 @@ beater.Circle = (function()
 	 * Returns the difference in radii of the circle and the circle's ring
 	 * and sets the circle's completion state to true
 	 *
-	 * @return	the difference in radii
+	 * @return	{Number} the difference in radii
 	 */
 	Circle.prototype.radiusDifference = function()
 	{
 		this.complete = true;
 		
-		console.log("circle R: " + this.radius);
-		console.log("ring R: " + this.ring.Radius());
+		//console.log("circle R: " + this.radius);
+		//console.log("ring R: " + this.ring.Radius());
 		
-		console.log(Math.abs(this.radius - this.ring.Radius()));
+		//console.log(Math.abs(this.radius - this.ring.Radius()));
 		
 		// difference in radii between circle and ring
 		return Math.abs(this.radius - this.ring.Radius());	
-	};
-	
-	/*
-	 * Returns the left-most coordinate of the Circle
-	 *
-	 * @return	the left-most coordinate of the Circle
-	 */
-	Circle.prototype.left = function()
-	{
-		return this.center.x - this.radius;
-	};
-	
-	/*
-	 * Returns the right-most coordinate of the Circle
-	 *
-	 * @return	the right coordinate of the Circle
-	 */
-	Circle.prototype.right = function()
-	{
-		return this.center.x + this.radius;
-	};
-	
-	/*
-	 * Returns the up-most? coordinate of the Circle
-	 *
-	 * @return	the up-most? coordinate of the Circle
-	 */
-	Circle.prototype.up = function()
-	{
-		return this.center.y - this.radius;
-	};
-	
-	/*
-	 * Returns the down-most? coordinate of the Circle
-	 *
-	 * @return	the down-most? coordinate of the Circle
-	 */
-	Circle.prototype.down = function()
-	{
-		return this.center.y + this.radius;
 	};
 	
 	/*

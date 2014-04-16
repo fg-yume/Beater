@@ -19,8 +19,8 @@ beater.Button = (function()
 	/*
 	 * Creates a button with the given parameters
 	 *
-	 * @param	x		the x-coord of the button (top-left)
-	 * @param	y		the y-coord of the button (top-left)
+	 * @param	x		the x-coord of the button (center)
+	 * @param	y		the y-coord of the button (center)
 	 * @param	width	the width of the button
 	 * @param	height	the height of the button
 	 * @param	fill	the fill color of the button
@@ -80,8 +80,8 @@ beater.Button = (function()
 			//ctx.stroke();
 			
 			// draw
-			ctx.fillRect(this.pos.x, this.pos.y, this.size.width, this.size.height);
-			ctx.strokeRect(this.pos.x, this.pos.y, this.size.width, this.size.height);
+			ctx.fillRect(this.pos.x - this.size.width/2, this.pos.y - this.size.height/2, this.size.width, this.size.height);
+			ctx.strokeRect(this.pos.x - this.size.width/2, this.pos.y - this.size.height/2, this.size.width, this.size.height);
 		
 		// revert changes - post rectangle
 		ctx.restore();
@@ -94,7 +94,7 @@ beater.Button = (function()
 			ctx.fillStyle = "#3A3CB1";
 			
 			// draw
-			ctx.fillText(this.text, this.pos.x + this.size.width/4, this.pos.y + this.size.height/2);
+			ctx.fillText(this.text, this.pos.x - this.size.width/4, this.pos.y);
 		
 		// revert changes - post text
 		ctx.restore();

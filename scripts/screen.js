@@ -134,7 +134,12 @@ beater.Screen = (function()
 			if(this.objects[i].data instanceof beater.Label)
 				continue;
 			
-			if(pointInRect(beater.input.currentMouseState.pos, {x: this.objects[i].data.pos.x, y: this.objects[i].data.pos.y, width: this.objects[i].data.size.width, height: this.objects[i].data.size.width}))
+			if(pointInRect(beater.input.currentMouseState.pos, {
+				x: this.objects[i].data.pos.x - this.objects[i].data.size.width/2, 
+				y: this.objects[i].data.pos.y - this.objects[i].data.size.height/2, 
+				width: this.objects[i].data.size.width, 
+				height: this.objects[i].data.size.width
+				}))
 			{
 				this.objects[i].data.clicked = true;
 				break;

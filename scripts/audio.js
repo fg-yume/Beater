@@ -84,7 +84,7 @@ beater.audio = {
 	 */
 	onAudioLoad : function(arrayBuffer)
 	{
-		console.log("loaded!");
+		//console.log("loaded!");
 		
 		// modify status label
 		beater.main.loadMusicScreen.modify("status", {text: "Status: Decoding audio!"});

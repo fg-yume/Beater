@@ -109,7 +109,7 @@ beater.main = {
 			beater.main.changeState(beater.GAME_STATE.MAIN, false);
 		});
 		
-		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Game", function(){
+		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Play", function(){
 			beater.main.changeState(beater.GAME_STATE.GAME, false);
 			console.log("game");
 			beater.audio.play();

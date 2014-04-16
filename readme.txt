@@ -1,4 +1,5 @@
 /* How to play */
-In the "Main Menu", press Z while hovering above the 'button' to go into the game screen.
+Press the 'Load Music' button to begin the game.
+- In the Load Music screen, drag a file (.ogg/.wav) into the screen to begin loading it. Once the music file has been loaded / decoded, the 'game' button can be pressed to begin the game.
 
-In the game screen, pressing either Z or X will spawn test buttons, which disappear based on the outer ring around them
+- In the game screen, click on the circles to make them disappear. The closer the outer ring is to the main circle, the higher the score you will get!
