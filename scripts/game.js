@@ -16,7 +16,14 @@ beater.game = {
 	// Game variables	------------------------------------
 	hitCircles	: undefined, // hit circles currently in the game
 	testTimer	: 0,
+	score		: 0,
+	multiplier	: 1,
 	
+	/*
+	 * Initializes necessary variables for the game
+	 *
+	 * @return	none
+	 */
 	init : function()
 	{
 		this.hitCircles = new Array();
@@ -87,37 +94,44 @@ beater.game = {
 		{
 			var ds = distanceSquared(beater.input.currentMouseState.pos,
 					this.hitCircles[i].center);
+					
+			console.log(ds);
 			
 			// if dist^2 <= radius^2
 			if(ds <= this.hitCircles[i].radius * this.hitCircles[i].radius)
 			{
-				// collision resolution
+				// collision resolution and set clicked to true
 				var diff = this.hitCircles[i].radiusDifference();
-				if(diff <= 1)
+				
+				console.log(diff);
+				
+				if(diff <= 4)
 				{
-					// score += 30
-					// multiplier ++
+					this.score += 30 * this.multiplier;
+					this.multiplier ++;
 					// hp stuff
 				}
 					
-				else if(diff <= 3)
+				else if(diff <= 7)
 				{
-					// score += 10
-					// multiplier ++
+					this.score += 10 * this.multiplier;
+					this.multiplier ++;
 					// hp stuff
 				}
 					
-				else if (diff <= 5)
+				else if (diff <= 10)
 				{
-					// score += 5
-					// multiplier ++
+					this.score += 5 * this.multiplier;
+					this.multiplier ++;
 					// hp stuff
 				}
 					
 				else
-				{
-					// multiplier = 1;
-				}
+					this.multiplier = 1;
+				
+				// Modify labels
+				beater.main.gameScreen.modify("score", {text: "Score: " + this.score});
+				beater.main.gameScreen.modify("multiplier", {text: "Multiplier: " + this.multiplier});
 				
 				// break out of loop
 				break;

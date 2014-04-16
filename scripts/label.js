@@ -14,7 +14,7 @@ beater.Label = (function()
 {
 	// private  ----------------------------------------
 	var TEXT_BASELINE = "middle";
-	var TEXT_ALIGN	= "center";
+	var TEXT_ALIGN	= "left";
 
 	// public	----------------------------------------
 	

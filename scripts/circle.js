@@ -72,6 +72,11 @@ beater.Circle = (function()
 	{
 		this.complete = true;
 		
+		console.log("circle R: " + this.radius);
+		console.log("ring R: " + this.ring.Radius());
+		
+		console.log(Math.abs(this.radius - this.ring.Radius()));
+		
 		// difference in radii between circle and ring
 		return Math.abs(this.radius - this.ring.Radius());	
 	};

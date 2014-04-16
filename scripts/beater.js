@@ -138,7 +138,9 @@ beater.main = {
 		
 		this.loadStatusLabel	= new beater.Label("Helvetica", "Status: Waiting for music", 30, beater.WIDTH/2, 340, "#FFF", "#000");
 		
-		//this.loadPercentLabel	= new beater.Label("Helvetica", "File load: percent:
+		this.scoreLabel 		= new beater.Label("Helvetica", "Score: 0", 25, 90, 40, "#FFF", "#000");
+		
+		this.multiplierLabel	= new beater.Label("Helvetica", "Multiplier: 0", 25, 90, 70, "#FFF", "#000");
 		
 		// append to screens
 		
@@ -155,6 +157,9 @@ beater.main = {
 		this.loadMusicScreen.addItem({data:this.loadLabel, key:"label"});
 		this.loadMusicScreen.addItem({data:this.loadStatusLabel, key:"status"});
 		this.loadMusicScreen.addItem({data:this.gameButton, key:"button"});
+		
+		this.gameScreen.addItem({data:this.scoreLabel, key:"score"});
+		this.gameScreen.addItem({data:this.multiplierLabel, key:"multiplier"});
 		
 		// begin loop
 		this.loop();
