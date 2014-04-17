@@ -19,6 +19,16 @@ beater.audio = {
 	hasCompleted	: false,
 	audioBuffer		: null,
 	
+	reset : function()
+	{
+		this.startOffset = 0;
+		this.startTime = 0;
+		this.hasCompleted = false;
+		this.audioBuffer = null;
+		this.hasLoaded = false;
+		this.audioBuffer = null;
+	},
+	
 	init : function()
 	{
 		// set up the audio context that is supported in the browser

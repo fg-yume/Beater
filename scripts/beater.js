@@ -127,6 +127,11 @@ beater.main = {
 			beater.main.changeState(beater.GAME_STATE.LOAD, false);
 		});
 		
+		this.restartButton		= new beater.Button(200, 600, 100, 30, "#A34", "#CCC", "Restart!", function(){
+			beater.main.changeState(beater.GAME_STATE.MAIN,false);
+			beater.main.reset();
+		});
+		
 		// labels	---------------------------------
 		this.mainLabel			= new beater.Label("Helvetica", "Beater: By Freddy Garcia", 50, beater.WIDTH/2 - 250, 200, "#000", "#000");
 		
@@ -169,6 +174,7 @@ beater.main = {
 		this.gameScreen.addItem({data:this.multiplierLabel, key:"multiplier"});
 		
 		this.gameWinScreen.addItem({data:this.winLabel, key:"label"});
+		this.gameWinScreen.addItem({data:this.restartButton, key:"restart"});
 		
 		// begin loop
 		this.loop();
@@ -258,6 +264,17 @@ beater.main = {
 		beater.animationID = requestAnimationFrame(this.loop.bind(this));
 	},
 	
+	reset : function()
+	{
+		// reset labels in load screen
+		this.loadMusicScreen.modify("status", {text:"Status: Waiting for music", color: {fill:"#BF0A0A", stroke:"#000"}});
+		this.loadMusicScreen.remove("percent");
+	
+		// reset game
+		beater.game.reset();
+		beater.audio.reset();
+	},
+	
 	/*
 	 * Check for collisions between the the items on the screen
 	 *
@@ -279,5 +296,8 @@ beater.main = {
 			
 		else if(this.currentState == beater.GAME_STATE.LOAD && beater.audio.hasLoaded)
 			this.loadMusicScreen.mouseCheck();
+			
+		else if(this.currentState == beater.GAME_STATE.GAME_WIN)
+			this.gameWinScreen.mouseCheck();
 	}
 };

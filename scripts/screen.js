@@ -122,6 +122,23 @@ beater.Screen = (function()
 	};
 	
 	/*
+	 * Removes the objects 
+	 *
+	 */
+	Screen.prototype.remove = function(key)
+	{
+		for(var i=0; i < this.objects.length; i++)
+		{
+			// remove object from the screen
+			if(this.objects[i].key == key)
+			{
+				this.objects.splice(i, 1);
+				i-=1;
+			}
+		}
+	};
+	
+	/*
 	 * Checks the screen to see if the mouse position is currently intersecting with any clickable objects on the screen
 	 *
 	 * @return	none

@@ -69,6 +69,12 @@ beater.game = {
 			this.multiplier = 1;
 	},
 	
+	/*
+	 * Updates the score and multiplier labels of the game screen
+	 * based on the game values
+	 *
+	 * @return	none
+	 */
 	updateScore : function()
 	{
 		// Modify labels
