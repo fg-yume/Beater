@@ -57,6 +57,10 @@ beater.game = {
 	{
 		this.updateObjects();
 		
+		// change to proper screen on completion
+		if(beater.audio.hasCompleted)
+			beater.main.changeState(beater.GAME_STATE.GAME_WIN, false);
+		
 		//console.log("game update");
 			
 		// test

@@ -149,6 +149,12 @@ beater.audio = {
 	
 		// start playback from where it was paused
 		this.sourceNode.start(0, this.startOffset % this.sourceNode.buffer.duration)
+		
+		// timer that will fire at song end
+		var timer = setTimeout(function(){
+			console.log("audio completed!");
+			beater.audio.hasCompleted = true;
+		}, this.sourceNode.buffer.duration * 1000); // time for audio is in seconds, not milliseconds
 	},
 	
 	pause : function()

@@ -146,6 +146,9 @@ beater.main = {
 		
 		this.multiplierLabel	= new beater.Label("Helvetica", "Multiplier: 0", 25, 90, 70, "#FFF", "#000");
 		
+		this.winLabel			= new beater.Label("Helvetica",
+		"You completed the song!", 50, beater.WIDTH/2 - 450, 200, "#FFF", "#000");
+		
 		// append to screens
 		
 		this.mainScreen.addItem({data:this.loadButton, key:"button"});
@@ -164,6 +167,8 @@ beater.main = {
 		
 		this.gameScreen.addItem({data:this.scoreLabel, key:"score"});
 		this.gameScreen.addItem({data:this.multiplierLabel, key:"multiplier"});
+		
+		this.gameWinScreen.addItem({data:this.winLabel, key:"label"});
 		
 		// begin loop
 		this.loop();
@@ -200,6 +205,9 @@ beater.main = {
 			
 		if(this.currentState == beater.GAME_STATE.LOAD)
 			this.loadMusicScreen.update();
+			
+		if(this.currentState == beater.GAME_STATE.GAME_WIN)
+			this.gameWinScreen.update();
 	},
 
 	/*
@@ -226,6 +234,9 @@ beater.main = {
 			
 		else if(this.currentState == beater.GAME_STATE.LOAD)
 			this.loadMusicScreen.draw(beater.CTX);
+		
+		else if(this.currentState == beater.GAME_STATE.GAME_WIN)
+			this.gameWinScreen.draw(beater.CTX);
 		
 		// default - should not get here!
 		else
