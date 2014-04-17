@@ -43,8 +43,10 @@ beater.Circle = (function()
 		this.fillColor		= fillColor.toString();
 		this.strokeColor	= strokeColor.toString();
 		
-		this.complete		= false;
+		this.complete		= false; // If the circle has completed its lifetime
 		this.strokeWidth	= radius/STROKE_WIDTH_DIVIDER;
+		
+		this.touched		= false; // if the circle has been clicked
 		
 		//this.createRing.bind(this);
 		
@@ -53,9 +55,9 @@ beater.Circle = (function()
 	};
 	
 	/*
-	 * Returns whether this circle has completed
+	 * Returns whether this circle has completed its lifetime
 	 *
-	 * @return	if the circle has completed
+	 * @return	{BOOL} if the circle has completed
 	 */
 	Circle.prototype.isComplete = function()
 	{
@@ -63,14 +65,24 @@ beater.Circle = (function()
 	};
 	
 	/*
+	 * Returns whether this circle has been clicked
+	 *
+	 * @return	{BOOL} if the circle has been clicked
+	 */
+	Circle.prototype.isTouched = function()
+	{
+		return this.touched;
+	};
+	
+	/*
 	 * Returns the difference in radii of the circle and the circle's ring
-	 * and sets the circle's completion state to true
+	 * and sets the circle's touched state to true
 	 *
 	 * @return	{Number} the difference in radii
 	 */
 	Circle.prototype.radiusDifference = function()
 	{
-		this.complete = true;
+		this.touched = true;
 		
 		//console.log("circle R: " + this.radius);
 		//console.log("ring R: " + this.ring.Radius());

@@ -68,13 +68,13 @@ beater.audio = {
 		// add progress label
 		beater.main.loadMusicScreen.addItem(
 			{
-				data: new beater.Label("Helvetica", "Loading audio: 0%", 30, beater.WIDTH/2 - 210, 375, "#FFF", "#000"),
+				data: new beater.Label("Helvetica", "Loading audio: 0%", 30, beater.WIDTH/2 - 210, 375, "#000", "#000"),
 				key: "percent"
 			}
 		);
 		
 		// modify status label
-		beater.main.loadMusicScreen.modify("status", {text: "Status: loading song", color: {fill: "#F00", stroke: "#000"}});
+		beater.main.loadMusicScreen.modify("status", {text: "Status: loading song", color: {fill: "#BF0A0A", stroke: "#000"}});
 		
 		reader.readAsArrayBuffer(file);
 	},
@@ -122,7 +122,7 @@ beater.audio = {
 			a.audioBuffer = buffer;
 			
 			// modify status label
-			beater.main.loadMusicScreen.modify("status", {text: "Status: Ready! click play to begin!", color: {fill: "#0F0", stroke: "#000"}});
+			beater.main.loadMusicScreen.modify("status", {text: "Status: Ready! click play to begin!", color: {fill: "#1C6E0C", stroke: "#000"}});
 
 			a.hasLoaded = true;
 		});

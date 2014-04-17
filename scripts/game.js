@@ -26,7 +26,15 @@ beater.game = {
 	 */
 	init : function()
 	{
+		this.reset();
+	},
+	
+	reset : function()
+	{
 		this.hitCircles = new Array();
+		this.testTimer = 0;
+		this.score = 0;
+		this.multiplier = 1;
 	},
 	
 	/*
@@ -40,12 +48,32 @@ beater.game = {
 		for(var i=0; i < this.hitCircles.length; i++)
 			this.hitCircles[i].update();
 			
-		// ToDo: Check for circles that have not been clicked but are complete
+		// ToDo: Check for circles that have been clicked
+		this.hitCircles = this.hitCircles.filter(function(hitCircle){
+			return !hitCircle.isTouched();
+		});
+		
+		// size check before filtering completed circles
+		var size = this.hitCircles.length;
 			
 		// filter out circles that have completed their lifetime
 		this.hitCircles = this.hitCircles.filter(function(hitCircle){
 			return !hitCircle.isComplete();
 		});
+		
+		//console.log("size: " + size);
+		//console.log("length: " + this.hitCircles.length);
+		
+		// check against new length
+		if(size != this.hitCircles.length)
+			this.multiplier = 1;
+	},
+	
+	updateScore : function()
+	{
+		// Modify labels
+		beater.main.gameScreen.modify("score", {text: "Score: " + this.score});
+		beater.main.gameScreen.modify("multiplier", {text: "Multiplier: " + this.multiplier});
 	},
 	
 	/*
@@ -56,6 +84,8 @@ beater.game = {
 	update : function()
 	{
 		this.updateObjects();
+		
+		this.updateScore();
 		
 		// change to proper screen on completion
 		if(beater.audio.hasCompleted)
@@ -132,10 +162,6 @@ beater.game = {
 					
 				else
 					this.multiplier = 1;
-				
-				// Modify labels
-				beater.main.gameScreen.modify("score", {text: "Score: " + this.score});
-				beater.main.gameScreen.modify("multiplier", {text: "Multiplier: " + this.multiplier});
 				
 				// break out of loop
 				break;
