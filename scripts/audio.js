@@ -9,19 +9,38 @@
 var beater = beater || {};
 
 beater.audio = {
-	audioCtx : undefined,
-	analyserNode : undefined,
-	sourceNode : undefined,
-	hasLoaded : false,
-	percentLoaded : 0,
-	percentDecoded : 0,
+	audioCtx 		: undefined,
+	analyserNode 	: undefined,
+	sourceNode 		: undefined,
+	hasLoaded 		: false,
+	percentLoaded 	: 0,
+	startOffset		: 0,
+	startTime		: 0,
+	hasCompleted	: false,
+	audioBuffer		: null,
 	
 	init : function()
 	{
 		// set up the audio context that is supported in the browser
-		window.AudioContext = window.AudioContext || window.webkitAudioContext;
-		console.log("audio init");
-		this.audioCtx = new AudioContext();
+		window.AudioContext = window.AudioContext || 
+						window.webkitAudioContext ||
+						window.mozAudioContext	  ||
+						window.oAudioContext	  ||
+						window.msAudioContext;
+		
+		// create audio context if available
+		if(window.AudioContext)
+		{
+			console.log("audio init");
+			this.audioCtx = new AudioContext();
+		}
+		
+		// no audio context support
+		else
+			console.log("Audio context not supported!");
+			
+		// node creation
+		this.analyserNode = this.audioCtx.createAnalyser();
 	},
 	
 	/*
@@ -70,7 +89,7 @@ beater.audio = {
 	onProgress : function(event)
 	{	
 		beater.audio.percentLoaded = Math.round(event.loaded / event.total * 100).toFixed(2);
-		console.log(beater.audio.percentLoaded);
+		//console.log(beater.audio.percentLoaded);
 		
 		// update screen labels
 		//beater.main.loadMusicScreen.modify(
@@ -96,25 +115,15 @@ beater.audio = {
 		// check for sound already playing
 		if(a.sourceNode)
 			a.sourceNode.stop(0);
-			
-		// analyser node
-		a.analyserNode = a.audioCtx.createAnalyser();
 		
 		// decode audio
 		a.audioCtx.decodeAudioData(arrayBuffer, function(buffer){
-			// source node
-			a.sourceNode = a.audioCtx.createBufferSource();
-			a.sourceNode.buffer = buffer;
-			a.sourceNode.connect(a.analyserNode);
-			
-			a.analyserNode.connect(a.audioCtx.destination);
-			
-			//console.log("pero actually loaded tho");
+			// store buffer
+			a.audioBuffer = buffer;
 			
 			// modify status label
 			beater.main.loadMusicScreen.modify("status", {text: "Status: Ready! click play to begin!", color: {fill: "#0F0", stroke: "#000"}});
-			
-			//a.sourceNode.start(0);
+
 			a.hasLoaded = true;
 		});
 	},
@@ -126,6 +135,28 @@ beater.audio = {
 	 */
 	play : function()
 	{
-		this.sourceNode.start(0);
+		// grab current time
+		this.startTime = this.audioCtx.currentTime;
+		
+		// recreate source node (already optimized for this)
+		this.sourceNode = this.audioCtx.createBufferSource();
+		this.sourceNode.buffer = this.audioBuffer;
+		this.sourceNode.loop = false;
+		
+		// connect to nodes
+		this.sourceNode.connect(this.analyserNode);
+		this.sourceNode.connect(this.audioCtx.destination);
+	
+		// start playback from where it was paused
+		this.sourceNode.start(0, this.startOffset % this.sourceNode.buffer.duration)
+	},
+	
+	pause : function()
+	{
+		//console.log("stop!");
+		this.sourceNode.stop();
+		
+		// measure time passed
+		this.startOffset += this.audioCtx.currentTime - this.startTime;
 	}
 };

@@ -116,6 +116,10 @@ beater.main = {
 		});
 		
 		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
+			if(beater.main.previousState == beater.GAME_STATE.GAME)
+				// resume audio if necessary
+				beater.audio.play();
+		
 			beater.main.changeState(beater.main.previousState, true);
 		});
 		

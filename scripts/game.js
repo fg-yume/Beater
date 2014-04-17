@@ -95,7 +95,7 @@ beater.game = {
 			var ds = distanceSquared(beater.input.currentMouseState.pos,
 					this.hitCircles[i].center);
 					
-			console.log(ds);
+			//console.log(ds);
 			
 			// if dist^2 <= radius^2
 			if(ds <= this.hitCircles[i].radius * this.hitCircles[i].radius)
@@ -103,7 +103,7 @@ beater.game = {
 				// collision resolution and set clicked to true
 				var diff = this.hitCircles[i].radiusDifference();
 				
-				console.log(diff);
+				//console.log(diff);
 				
 				if(diff <= 4)
 				{

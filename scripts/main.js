@@ -54,6 +54,9 @@ Modernizr.load(
 					// needed to display pause
 					beater.main.update();
 					beater.main.draw();
+					
+					// stop music
+					beater.audio.pause();
 				}
 			});
 			
