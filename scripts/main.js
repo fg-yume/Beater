@@ -26,8 +26,8 @@ Modernizr.load(
 			'scripts/label.js',
 			'scripts/screen.js',
 			'scripts/input.js',
+			'scripts/beater.js',
 			'scripts/game.js',
-			'scripts/beater.js'
 		],
 		
 		/*

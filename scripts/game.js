@@ -15,9 +15,15 @@ var beater = beater || {};
 beater.game = {
 	// Game variables	------------------------------------
 	hitCircles	: undefined, // hit circles currently in the game
-	testTimer	: 0,
 	score		: 0,
 	multiplier	: 1,
+	path		: {x : beater.WIDTH/2, y: beater.HEIGHT/2},
+	MIN_X		: 45,
+	MIN_Y		: 45,
+	MAX_X		: beater.WIDTH - 45,
+	MAX_Y		: beater.HEIGHT - 45,
+	previousShift	: 0, //0: left, 1: up, 2: right, 3: down
+	currentShift	: 0,
 	
 	/*
 	 * Initializes necessary variables for the game
@@ -27,6 +33,8 @@ beater.game = {
 	init : function()
 	{
 		this.reset();
+		//console.log(beater.WIDTH);
+		//console.log(beater.HEIGHT);
 	},
 	
 	reset : function()
@@ -101,9 +109,22 @@ beater.game = {
 			return false
 	},
 	
+	/*
+	 * Creates a circle at a random position on the screen
+	 *
+	 * @return	none
+	 */
 	create : function()
 	{
-		this.hitCircles.push(new beater.Circle(beater.input.currentMouseState.pos.x, beater.input.currentMouseState.pos.y, 10, '#aaa', '#999', 100));
+		// Randomly choose location
+		//var randX = Math.random() * (beater.WIDTH - 30);// + 30;
+		//var randY = Math.random() * (beater.HEIGHT - 30);// + 30;
+		
+		//console.log(this.path.x);
+		//console.log(this.path.y);
+	
+		this.hitCircles.push(new beater.Circle(
+			this.path.x, this.path.y, 10, '#aaa', '#999', 100));
 	},
 	
 	/*
@@ -119,6 +140,124 @@ beater.game = {
 		beater.main.gameScreen.modify("multiplier", {text: "Multiplier: " + this.multiplier});
 	},
 	
+	updatePath : function(dt)
+	{
+		//0: left, 1: up, 2: right, 3: down
+	
+		// randomly choose where to go
+		var rdm = Math.random();
+		
+		// left
+		if(rdm < .25)
+		{
+			// check if previous movement was right
+			if(this.previousShift == 2)
+			{
+				// move right instead!
+				this.path.x += 10 * dt * 60/1000;
+				this.currentShift = 2;
+				
+				// boundary checks
+				if(this.path.x > this.MAX_X)
+					this.path.x = this.MAX_X;
+			}
+		
+			// move left
+			else
+			{
+				this.path.x -= 10 * dt * 60/1000;
+				this.currentShift = 0;
+				
+				// boundary check
+				if(this.path.x < this.MIN_X)
+					this.path.x = this.MIN_X;
+			}
+		}
+			
+		// up
+		else if(rdm >= .25 && rdm < .5)
+		{
+			// check if previous movement was down
+			if(this.previousShift == 3)
+			{
+				// move down instead!
+				this.path.y += 10 * dt * 60/1000;
+				this.currentShift = 3;
+				
+				// boundary check
+				if(this.path.y > this.MAX_Y)
+					this.path.y = this.MAX_Y;
+			}
+		
+			// move up
+			else
+			{
+				this.path.y -= 10 * dt * 60/1000;
+				this.currentShift = 1;
+				
+				// boundary check
+				if(this.path.y < this.MIN_X)
+					this.path.y = this.MIN_X;
+			}
+		}
+			
+		// right
+		else if(rdm >= .5 && rdm < .75)
+		{
+			//check if previous movement was left
+			if(this.previousShift == 0)
+			{
+				// move left instead!
+				this.path.x -= 10 * dt * 60/1000;
+				this.curretShift = 0;
+				
+				// boundary check
+				if(this.path.x < this.MIN_X)
+					this.path.x = this.MIN_X;
+			}
+			
+			// move right
+			else
+			{
+				this.path.x += 10 * dt * 60/1000;
+				this.currentShift = 2;
+				
+				// boundary check
+				if(this.path.x > this.MAX_X)
+					this.path.x = this.MAX_X;
+			}
+		}
+		
+		// down
+		else
+		{
+			// check if previous movement was up
+			if(this.previousShift == 1)
+			{
+				// move up instead!
+				this.path.y -= 10 * dt * 60/1000;
+				this.currentShift = 1;
+				
+				// boundary check
+				if(this.path.y < this.MIN_Y)
+					this.path.y = this.MIN_Y;
+			}
+		
+			// move down
+			else
+			{
+				this.path.y += 10 * dt * 60/1000;
+				this.currentShift = 3;
+				
+				// boundary check
+				if(this.path.y > this.MAX_Y)
+					this.path.y = this.MAX_Y;
+			}
+		}
+		
+		this.previousShift = this.currentShift;
+	},
+	
 	/*
 	 * Updates the game based on time passed
 	 *
@@ -131,6 +270,8 @@ beater.game = {
 		// change to proper screen on completion
 		if(beater.audio.hasCompleted)
 			beater.main.changeState(beater.GAME_STATE.GAME_WIN, false);
+			
+		this.updatePath(dt);
 		
 		this.updateObjects(dt);
 		this.updateScore();	// needs to be done after objects due to score/multiplier being affected in updateObjects()
@@ -138,16 +279,6 @@ beater.game = {
 		// create new circles based on music
 		if(this.willCreate())
 			this.create();
-			
-		// test
-		this.testTimer -= 1;
-		
-		if(this.testTimer <= 0)
-		{
-			
-			
-			this.testTimer = 100;
-		}
 	},
 	
 	/*
