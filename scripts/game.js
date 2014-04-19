@@ -38,15 +38,17 @@ beater.game = {
 	},
 	
 	/*
-	 * Updates all entities in the game
+	 * Updates all entities in the game based on time since last frame
+	 *
+	 * @param	{Number} dt	the amount of time that has elapsed since last update
 	 *
 	 * @return	none
 	 */
-	updateObjects : function()
+	updateObjects : function(dt)
 	{
 		// update circles
 		for(var i=0; i < this.hitCircles.length; i++)
-			this.hitCircles[i].update();
+			this.hitCircles[i].update(dt);
 			
 		// ToDo: Check for circles that have been clicked
 		this.hitCircles = this.hitCircles.filter(function(hitCircle){
@@ -70,6 +72,41 @@ beater.game = {
 	},
 	
 	/*
+	 * Uses the byte frequency data of the audio in order to determine whether or not to spawn a circle
+	 *
+	 * @return	{BOOL} whether or not to spawn a circle
+	 */
+	willCreate : function()
+	{
+		var bfd = beater.audio.byteFrequencyData();
+		
+		//var max = Array.max(bfd);
+		var avg = noZeroAverage(bfd);
+		//var min = Array.min(bfd);
+		
+		//console.log("max: " + max);
+		//console.log("min: " + min);
+		//console.log("avg: " + avg/beater.MAX_FREQUENCY);
+		
+		var spawnChange = avg/beater.MAX_FREQUENCY;
+		
+		// random value to compare against
+		var rdm = Math.random() + .55;
+		//console.log("random: " + rdm);
+		
+		if(spawnChange >= rdm)
+			return true;
+			
+		else
+			return false
+	},
+	
+	create : function()
+	{
+		this.hitCircles.push(new beater.Circle(beater.input.currentMouseState.pos.x, beater.input.currentMouseState.pos.y, 10, '#aaa', '#999', 100));
+	},
+	
+	/*
 	 * Updates the score and multiplier labels of the game screen
 	 * based on the game values
 	 *
@@ -83,28 +120,31 @@ beater.game = {
 	},
 	
 	/*
-	 * Updates the game
+	 * Updates the game based on time passed
+	 *
+	 * @param	{Number} dt	the amount of time that has changed since the last update
 	 *
 	 * @return	none
 	 */
-	update : function()
+	update : function(dt)
 	{
-		this.updateObjects();
-		
-		this.updateScore();
-		
 		// change to proper screen on completion
 		if(beater.audio.hasCompleted)
 			beater.main.changeState(beater.GAME_STATE.GAME_WIN, false);
 		
-		//console.log("game update");
+		this.updateObjects(dt);
+		this.updateScore();	// needs to be done after objects due to score/multiplier being affected in updateObjects()
+		
+		// create new circles based on music
+		if(this.willCreate())
+			this.create();
 			
 		// test
 		this.testTimer -= 1;
 		
 		if(this.testTimer <= 0)
 		{
-			this.hitCircles.push(new beater.Circle(beater.input.currentMouseState.pos.x, beater.input.currentMouseState.pos.y, 10, '#aaa', '#999', 100));
+			
 			
 			this.testTimer = 100;
 		}

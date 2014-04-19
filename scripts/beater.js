@@ -33,6 +33,8 @@ beater.CTX				= document.querySelector("#canvas").getContext('2d');	// 2d render
 beater.WIDTH			= document.querySelector("#canvas").width;				// width of the canvas
 beater.HEIGHT			= document.querySelector("#canvas").height;				// height of the canvas
 
+beater.MAX_FREQUENCY	= 255;	// maximum frequency value for audio
+
 beater.main = {
 	// Game variables	------------------------------------
 	previousState 	: undefined,	// previous game state
@@ -41,6 +43,9 @@ beater.main = {
 		//this.changeState.bind(this);
 		this.changeState(beater.GAME_STATE.GAME, false);
 	}),
+	clickTimer		: 0,
+	previousTime	: undefined,
+	currentTime		: undefined,
 
 	// Game methods		------------------------------------
 
@@ -176,17 +181,25 @@ beater.main = {
 		this.gameWinScreen.addItem({data:this.winLabel, key:"label"});
 		this.gameWinScreen.addItem({data:this.restartButton, key:"restart"});
 		
+		// begin time check
+		this.previousTime = new Date().getTime();
+		
 		// begin loop
 		this.loop();
 	},
 
 	/*
-	 * Updates the game
+	 * Updates the game based on time
+	 *
+	 * @param	{Number} dt	the delta time since the last update
 	 *
 	 * @return	none
 	 */
-	update : function()
+	update : function(dt)
 	{
+		// update click timer
+		this.clickTimer--;
+	
 		// input
 		beater.input.pollKeyboard();
 		
@@ -194,6 +207,7 @@ beater.main = {
 		if(beater.input.mouseDown)
 			this.checkCollisions();
 		
+		// updating based on current state
 		if(this.currentState == beater.GAME_STATE.MAIN)
 			this.mainScreen.update();
 			
@@ -203,7 +217,7 @@ beater.main = {
 		if(this.currentState == beater.GAME_STATE.GAME)
 		{
 			this.gameScreen.update();
-			beater.game.update();
+			beater.game.update(dt);
 		}
 		
 		if(this.currentState == beater.GAME_STATE.PAUSE)
@@ -256,14 +270,24 @@ beater.main = {
 	 */
 	loop : function()
 	{
-		console.log("loop");
+		// check current time
+		this.currentTime = new Date().getTime();
+		
+		// delta time
+		var dt = this.currentTime - this.previousTime;
+		this.previousTime = this.currentTime;
 	
-		this.update();
+		this.update(dt);
 		this.draw();
 		
 		beater.animationID = requestAnimationFrame(this.loop.bind(this));
 	},
 	
+	/*
+	 * Resets all aspects of beater to their defaults
+	 *
+	 * @return	none
+	 */
 	reset : function()
 	{
 		// reset labels in load screen
@@ -282,22 +306,39 @@ beater.main = {
 	 */
 	checkCollisions : function()
 	{		
-		if(this.currentState == beater.GAME_STATE.MAIN)
+		if(this.currentState == beater.GAME_STATE.MAIN && this.clickTimer <= 0)
+		{
 			this.mainScreen.mouseCheck();
+			this.clickTimer = 10;
+		}
 		
-		else if(this.currentState == beater.GAME_STATE.INSTRUCTIONS)
+		else if(this.currentState == beater.GAME_STATE.INSTRUCTIONS && this.clickTimer <= 0)
+		{
 			this.instructionScreen.mouseCheck();
+			this.clickTimer = 10;
+		}
 	
 		else if(this.currentState == beater.GAME_STATE.GAME)
 			beater.game.clickCheck();
 			
-		else if(this.currentState == beater.GAME_STATE.PAUSE)
+		else if(this.currentState == beater.GAME_STATE.PAUSE && this.clickTimer <= 0)
+		{
 			this.pauseScreen.mouseCheck();
+			this.clickTimer = 10;
+		}
 			
-		else if(this.currentState == beater.GAME_STATE.LOAD && beater.audio.hasLoaded)
+		else if(this.currentState == beater.GAME_STATE.LOAD && beater.audio.hasLoaded && this.clickTimer <= 0)
+		{
 			this.loadMusicScreen.mouseCheck();
+			this.clickTimer = 10;
+		}
 			
 		else if(this.currentState == beater.GAME_STATE.GAME_WIN)
+		{
 			this.gameWinScreen.mouseCheck();
+			this.clickTimer = 10;
+		}
+			
+		//this.clickTimer = 10;
 	}
 };

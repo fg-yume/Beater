@@ -94,15 +94,17 @@ beater.Circle = (function()
 	};
 	
 	/*
-	 * Updates the circle, as well as the surrounding ring
+	 * Updates the circle, as well as the surrounding ring, based on time elapsed since last frame
+	 *
+	 * @param	{Number} dt	the time that has elapsed since the last call to update
 	 *
 	 * @return	none
 	 */
-	Circle.prototype.update = function()
+	Circle.prototype.update = function(dt)
 	{
 		//console.log("circle update");
 	
-		this.ring.update();
+		this.ring.update(dt);
 	
 		// check for completion
 		if(this.ring.hasShrunk())

@@ -53,6 +53,19 @@ beater.audio = {
 		this.analyserNode = this.audioCtx.createAnalyser();
 	},
 	
+	/* 
+	 * Returns the byte frequency data of the playhead location
+	 *
+	 * @return	{Array} the current frequency data
+	 */
+	byteFrequencyData : function()
+	{
+		var byteArray = new Uint8Array(this.analyserNode.frequencyBinCount);
+		this.analyserNode.getByteFrequencyData(byteArray);
+		
+		return byteArray;
+	},
+	
 	/*
 	 * Loads the audio from the file that was dropped onto the screen.
 	 *
@@ -170,7 +183,8 @@ beater.audio = {
 	pause : function()
 	{
 		//console.log("stop!");
-		this.sourceNode.stop();
+		if(this.sourceNode)
+			this.sourceNode.stop();
 		
 		// measure time passed
 		this.startOffset += this.audioCtx.currentTime - this.startTime;

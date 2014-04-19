@@ -62,13 +62,15 @@ beater.Ring = (function()
 	};
 	
 	/*
-	 * Updates the ring
+	 * Updates the ring based on the amount of time that has elapsed since the last update
+	 *
+	 * @param	{Number} dt	the amount of time that has elapsed since the last update
 	 *
 	 * @return 	none
 	 */
-	Ring.prototype.update = function(dx)
+	Ring.prototype.update = function(dt)
 	{
-		this.radius -= this.shrinkRate;
+		this.radius -= this.shrinkRate * dt * 60/1000;
 		
 		// update when final radius is reached
 		if(this.radius <= this.finalRadius)

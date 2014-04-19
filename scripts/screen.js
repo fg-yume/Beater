@@ -75,7 +75,7 @@ beater.Screen = (function()
 		// settings
 		ctx.fillStyle 	= this.color.fill;
 		ctx.strokeStyle = this.color.stroke;
-		ctx.lineWidth 	= 50;
+		ctx.lineWidth 	= 15;
 		
 		// draw background
 		ctx.fillRect(0, 0, beater.WIDTH, beater.HEIGHT);
@@ -122,8 +122,11 @@ beater.Screen = (function()
 	};
 	
 	/*
-	 * Removes the objects 
+	 * Removes the object with the specified key
 	 *
+	 * @param	{String} key	the key of the object to remove from the screen
+	 *
+	 * @return	none
 	 */
 	Screen.prototype.remove = function(key)
 	{
