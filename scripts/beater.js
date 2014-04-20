@@ -159,6 +159,14 @@ beater.main = {
 		this.winLabel			= new beater.Label("Helvetica",
 		"You completed the song!", 50, beater.WIDTH/2 - 450, 200, "#000", "#000");
 		
+		this.highScoreLabel		= new beater.Label("Helvetica", "High Score: 0", 30, beater.WIDTH/2 - 300, 260, "#000", "#000");
+		
+		this.maxChainLabel		= new beater.Label("Helvetica", "Max chain: 0", 30, beater.WIDTH/2 - 300, 300, "#000", "#000");
+		
+		this.instructionLabel	= new beater.Label("Helvetica", "Instructions!", 50, beater.WIDTH/2 - 400, 200, "#000", "#000");
+		
+		this.instructionLabel2 	= new beater.Label("Helvetica", "Click the circles when the outer ring is close to the circle to gain points!", 25, beater.WIDTH/2 - 450, 300, "#000", "#000");
+		
 		// append to screens
 		
 		this.mainScreen.addItem({data:this.loadButton, key:"button"});
@@ -167,6 +175,8 @@ beater.main = {
 		
 		//this.instructionScreen.addItem(this.instructionButton);
 		this.instructionScreen.addItem({data:this.mainMenuButton, key:"button"});
+		this.instructionScreen.addItem({data:this.instructionLabel, key:"label"});
+		this.instructionScreen.addItem({data:this.instructionLabel2, key: "label"});
 		
 		this.pauseScreen.addItem({data:this.resumeButton, key:"button"});
 		this.pauseScreen.addItem({data:this.pauseLabel, key:"label"});
@@ -180,6 +190,8 @@ beater.main = {
 		
 		this.gameWinScreen.addItem({data:this.winLabel, key:"label"});
 		this.gameWinScreen.addItem({data:this.restartButton, key:"restart"});
+		this.gameWinScreen.addItem({data:this.highScoreLabel, key:"highscore"});
+		this.gameWinScreen.addItem({data:this.maxChainLabel, key:"maxmult"});
 		
 		// begin time check
 		this.previousTime = new Date().getTime();

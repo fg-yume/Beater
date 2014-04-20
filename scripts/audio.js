@@ -41,7 +41,7 @@ beater.audio = {
 		// create audio context if available
 		if(window.AudioContext)
 		{
-			console.log("audio init");
+			//console.log("audio init");
 			this.audioCtx = new AudioContext();
 		}
 		
@@ -175,7 +175,7 @@ beater.audio = {
 		
 		// timer that will fire at song end
 		var timer = setTimeout(function(){
-			console.log("audio completed!");
+			//console.log("audio completed!");
 			beater.audio.hasCompleted = true;
 		}, this.sourceNode.buffer.duration * 1000); // time for audio is in seconds, not milliseconds
 	},

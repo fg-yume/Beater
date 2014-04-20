@@ -17,6 +17,7 @@ beater.game = {
 	hitCircles	: undefined, // hit circles currently in the game
 	score		: 0,
 	multiplier	: 1,
+	maxMult		: 1,
 	path		: {x : beater.WIDTH/2, y: beater.HEIGHT/2},
 	MIN_X		: 45,
 	MIN_Y		: 45,
@@ -138,6 +139,9 @@ beater.game = {
 		// Modify labels
 		beater.main.gameScreen.modify("score", {text: "Score: " + this.score});
 		beater.main.gameScreen.modify("multiplier", {text: "Multiplier: " + this.multiplier});
+		
+		if(this.multiplier > this.maxMult)
+			this.maxMult = this.multiplier;
 	},
 	
 	updatePath : function(dt)
@@ -268,8 +272,24 @@ beater.game = {
 	update : function(dt)
 	{
 		// change to proper screen on completion
-		if(beater.audio.hasCompleted)
+		if(beater.audio.hasCompleted && this.hitCircles.length <= 0)
+		{
+			// check high score
+			if(this.score > localStorage.getItem("highscore"))
+					localStorage.setItem("highscore", this.score);
+				
+			if(this.maxMult > localStorage.getItem("multiplier"))
+				localStorage.setItem("multiplier", this.maxMult);
+				
+				
+			beater.main.gameWinScreen.modify("highscore", {text: "High Score: " + localStorage.getItem("highscore")});
+			
+			beater.main.gameWinScreen.modify("maxmult", {text: "Max chain: " + localStorage.getItem("multiplier")});
+			//console.log("high score: " + localStorage.highscore);
+			//console.log("max chain: " + localStorage.multiplier);
+		
 			beater.main.changeState(beater.GAME_STATE.GAME_WIN, false);
+		}
 			
 		this.updatePath(dt);
 		
@@ -277,8 +297,11 @@ beater.game = {
 		this.updateScore();	// needs to be done after objects due to score/multiplier being affected in updateObjects()
 		
 		// create new circles based on music
-		if(this.willCreate())
-			this.create();
+		if(!beater.audio.hasCompleted)
+		{
+			if(this.willCreate())
+				this.create();
+		}
 	},
 	
 	/*
