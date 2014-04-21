@@ -115,6 +115,7 @@ beater.Label = (function()
 		
 			// draw
 			ctx.fillText(this.text, this.pos.x, this.pos.y);
+			//ctx.
 			
 		// revert changes
 		ctx.restore();

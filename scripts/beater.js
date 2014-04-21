@@ -94,33 +94,33 @@ beater.main = {
 		this.currentState 	= beater.GAME_STATE.MAIN;
 		
 		// screens 	---------------------------------
-		this.mainScreen 		= new beater.Screen("#FFFAA3", "#F26");
-		this.instructionScreen 	= new beater.Screen("#FFFAA3", "#F26");
-		this.gameScreen			= new beater.Screen("#FFFAA3", "#F26");
-		this.pauseScreen		= new beater.Screen("#FFFAA3", "#F26");
-		this.gameOverScreen		= new beater.Screen("#FFFAA3", "#F26");
-		this.gameWinScreen		= new beater.Screen("#FFFAA3", "#F26");
-		this.loadMusicScreen	= new beater.Screen("#FFFAA3", "#F26");
-		this.pauseScreen		= new beater.Screen("#FFEA5A", "#F26");
+		this.mainScreen 		= new beater.Screen("#A61BFF", "#530E7F");
+		this.instructionScreen 	= new beater.Screen("#A61BFF", "#530E7F");
+		this.gameScreen			= new beater.Screen("#A61BFF", "#530E7F");
+		this.pauseScreen		= new beater.Screen("#A61BFF", "#530E7F");
+		this.gameOverScreen		= new beater.Screen("#A61BFF", "#530E7F");
+		this.gameWinScreen		= new beater.Screen("#A61BFF", "#530E7F");
+		this.loadMusicScreen	= new beater.Screen("#A61BFF", "#530E7F");
+		this.pauseScreen		= new beater.Screen("#62347F", "#530E7F");
 		
 		this.changeState.bind(this);
 		
 		// buttons	---------------------------------
-		this.instructionButton	= new beater.Button(400, 700, 100, 30, "#012345", "#CCC", "Inst", function(){
+		this.instructionButton	= new beater.Button(beater.WIDTH/2, 700, 100, 30, "#012345", "#CCC", "Inst", function(){
 			beater.main.changeState(beater.GAME_STATE.INSTRUCTIONS, false);
 		});
 		
-		this.mainMenuButton 	= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
+		this.mainMenuButton 	= new beater.Button(beater.WIDTH/2, 700, 100, 30, "#FFF", "#CCC", "Main", function(){
 			beater.main.changeState(beater.GAME_STATE.MAIN, false);
 		});
 		
-		this.gameButton			= new beater.Button(400, 750, 100, 30, "#543210", "#CCC", "Play", function(){
+		this.gameButton			= new beater.Button(beater.WIDTH/2, 550, 100, 30, "#543210", "#CCC", "Play", function(){
 			beater.main.changeState(beater.GAME_STATE.GAME, false);
 			console.log("game");
 			beater.audio.play();
 		});
 		
-		this.resumeButton		= new beater.Button(400, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
+		this.resumeButton		= new beater.Button(beater.WIDTH/2, 700, 100, 30, "#FFF", "#CCC", "Resume", function(){
 			if(beater.main.previousState == beater.GAME_STATE.GAME)
 				// resume audio if necessary
 				beater.audio.play();
@@ -128,11 +128,11 @@ beater.main = {
 			beater.main.changeState(beater.main.previousState, true);
 		});
 		
-		this.loadButton			= new beater.Button(500, 600, 100, 30, "#A34", "#CCC", "Select Music", function(){	
+		this.loadButton			= new beater.Button(beater.WIDTH/2, 600, 100, 30, "#A34", "#CCC", "Select Music", function(){	
 			beater.main.changeState(beater.GAME_STATE.LOAD, false);
 		});
 		
-		this.restartButton		= new beater.Button(200, 600, 100, 30, "#A34", "#CCC", "Restart!", function(){
+		this.restartButton		= new beater.Button(beater.WIDTH/2, 600, 100, 30, "#A34", "#CCC", "Restart!", function(){
 			beater.main.changeState(beater.GAME_STATE.MAIN,false);
 			beater.main.reset();
 		});
@@ -184,6 +184,7 @@ beater.main = {
 		this.loadMusicScreen.addItem({data:this.loadLabel, key:"label"});
 		this.loadMusicScreen.addItem({data:this.loadStatusLabel, key:"status"});
 		this.loadMusicScreen.addItem({data:this.gameButton, key:"button"});
+		//this.loadMusicScreen.addItem({data:this.mainMenuButton, key:"button"});
 		
 		this.gameScreen.addItem({data:this.scoreLabel, key:"score"});
 		this.gameScreen.addItem({data:this.multiplierLabel, key:"multiplier"});

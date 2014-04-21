@@ -92,9 +92,10 @@ beater.Button = (function()
 			// text settings
 			ctx.font = "12px Arial";
 			ctx.fillStyle = "#3A3CB1";
+			ctx.textAlign = "center";
 			
-			// draw
-			ctx.fillText(this.text, this.pos.x - this.size.width/4, this.pos.y);
+			// draw text centered on the button
+			ctx.fillText(this.text, this.pos.x, this.pos.y + this.size.height/8);
 		
 		// revert changes - post text
 		ctx.restore();
